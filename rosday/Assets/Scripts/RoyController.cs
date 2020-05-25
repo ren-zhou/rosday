@@ -33,7 +33,7 @@ public class RoyController : MonoBehaviour
     private bool isWallSliding;
     public bool isGrounded;
     public bool isOnWall;
-    public bool canJump;
+    public bool canGroundJump;
     public bool canDoubleJump;
     private int facingDirection = 1;
 
@@ -54,13 +54,15 @@ public class RoyController : MonoBehaviour
     {
         CheckInput();
         CheckAnimConditions();
+
+
         UpdateAnimations();
-        CheckIfWallSliding();
     }
 
     private void FixedUpdate()
     {
         ApplyMovement();
+        CheckIfWallSliding();
         CheckSurroundings();
         CheckCanJump();
     }
@@ -84,7 +86,7 @@ public class RoyController : MonoBehaviour
 
     private void CheckCanJump()
     {
-        canJump = isGrounded;
+        canGroundJump = isGrounded;
         canDoubleJump = isGrounded || canDoubleJump || isOnWall;
     }
 
@@ -111,25 +113,43 @@ public class RoyController : MonoBehaviour
 
     private void ApplyMovement()
     {
-        if (isGrounded)
+        if (true)
         {
-            rb.velocity = new Vector2(moveSpeed * movementInputDirection, rb.velocity.y);
-        } else if (!isGrounded && !isWallSliding && movementInputDirection != 0)
-        {
-            Vector2 forceToAdd = new Vector2(movementForceAir * movementInputDirection, 0);
-            rb.AddForce(forceToAdd);
-            if (Mathf.Abs(rb.velocity.x) > moveSpeed) {
-                rb.velocity = new Vector2(moveSpeed * movementInputDirection, rb.velocity.y);
+            if (movementInputDirection != 0)
+            {
+                rb.AddForce(new Vector2(moveSpeed * 10 * movementInputDirection, 0));
+            } else
+            {
+                rb.velocity = new Vector2(0.5f * rb.velocity.x, rb.velocity.y);
             }
-        } else if (!isGrounded && !isWallSliding && movementInputDirection == 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x * airDragMultiplier, rb.velocity.y);
-        } 
+            ClampVelocity();
+
+
+            //rb.velocity = new Vector2(moveSpeed * movementInputDirection, rb.velocity.y);
+        }
+        //else if (!isGrounded && !isWallSliding && movementInputDirection != 0)
+        //{
+            
+        //    rb.AddForce(new Vector2(movementForceAir * movementInputDirection, 0));
+        //    ClampVelocity();
+        //}
+        //else if (!isGrounded && !isWallSliding && movementInputDirection == 0)
+        //{
+        //    rb.velocity = new Vector2(rb.velocity.x * airDragMultiplier, rb.velocity.y);
+        //}
 
 
         if (isWallSliding && rb.velocity.y < -wallSlideSpeed)
         {
             rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+        }
+    }
+
+    private void ClampVelocity()
+    {
+        if (Mathf.Abs(rb.velocity.x) > moveSpeed)
+        {
+            rb.velocity = new Vector2(moveSpeed * movementInputDirection, rb.velocity.y);
         }
     }
 
@@ -142,10 +162,10 @@ public class RoyController : MonoBehaviour
 
     private void Jump()
     {
-        if (canJump)
+        if (canGroundJump)
         {
             GroundedJump();
-        } else if (isOnWall || isWallSliding) {
+        } else if (isOnWall && isWallSliding) {
             WallJump();
         } else if (canDoubleJump)
         {
@@ -164,24 +184,29 @@ public class RoyController : MonoBehaviour
         if (movementInputDirection == 0 && isWallSliding)
         {
             forceToAdd = new Vector2(wallHopForce * wallHopDirection.x * -facingDirection, wallHopForce * wallHopDirection.y);
+            Debug.Log("wall hop");
         } else {
             forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * -facingDirection, wallJumpForce * wallJumpDirection.y);
+            Debug.Log("wall jump");
         }
         isWallSliding = false;
-        rb.AddForce(forceToAdd, ForceMode2D.Force);
+        Debug.Log(forceToAdd);
+        rb.AddForce(forceToAdd, ForceMode2D.Impulse);
+
     }
 
     private void AirJump()
     {
-        canDoubleJump = false;
-        rb.velocity = new Vector2(rb.velocity.x, airJumpForce);
+        if (!isOnWall && !isWallSliding) {
+            canDoubleJump = false;
+            rb.velocity = new Vector2(rb.velocity.x, airJumpForce);
+        }
+
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
-    }
-
-
+    }   
 }

@@ -13968,13 +13968,13 @@ MonoBehaviour:
   movementForceAir: 25
   airDragMultiplier: 0.7
   variableJumpHeightMultiplier: 0.5
-  wallJumpDirection: {x: 1, y: 0}
+  wallJumpDirection: {x: 1, y: 0.5}
   wallHopDirection: {x: 1, y: 0.2}
   wallJumpForce: 20
-  wallHopForce: 0
+  wallHopForce: 15
   isGrounded: 0
   isOnWall: 0
-  canJump: 0
+  canGroundJump: 0
   canDoubleJump: 0
 --- !u!1 &925133751
 GameObject:

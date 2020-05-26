@@ -57,14 +57,16 @@ public class RoyController : MonoBehaviour
 
 
         UpdateAnimations();
+
     }
 
     private void FixedUpdate()
     {
-        ApplyMovement();
+
         CheckIfWallSliding();
         CheckSurroundings();
         CheckCanJump();
+        ApplyMovement();
     }
 
     private void CheckInput()

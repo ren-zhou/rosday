@@ -13920,7 +13920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
-  gravityModifier: 1.7
+  gravityModifier: 0.5
   maxSpeed: 7
   jumpTakeOffSpeed: 15
 --- !u!95 &774395183
@@ -13957,25 +13957,23 @@ MonoBehaviour:
   groundCheck: {fileID: 925133752}
   wallCheck: {fileID: 1206101460}
   moveSpeed: 5
+  groundAcceleration: 25
+  groundDeceleration: 30
+  airAcceleration: 20
+  airDeceleration: 25
+  maxFallSpeed: 20
   jumpForce: 10
   airJumpForce: 10
-  groundCheckRadius: 0.1
+  wallJumpDirection: {x: 1, y: 3}
+  wallSlideSpeed: 1.3
+  wallJumpForce: 12.5
+  jumpDecreaseMultiplier: 0.5
+  groundCheckDistance: 0.3
+  wallCheckDistance: 0.27
   groundLM:
     serializedVersion: 2
     m_Bits: 256
-  wallCheckDistance: 0.27
-  wallSlideSpeed: 1.3
-  movementForceAir: 25
-  airDragMultiplier: 0.7
-  variableJumpHeightMultiplier: 0.5
-  wallJumpDirection: {x: 1, y: 0.5}
-  wallHopDirection: {x: 1, y: 0.2}
-  wallJumpForce: 25
-  wallHopForce: 15
-  isGrounded: 0
-  isOnWall: 0
-  canGroundJump: 0
-  canDoubleJump: 0
+  dashSpeed: 20
 --- !u!1 &925133751
 GameObject:
   m_ObjectHideFlags: 0

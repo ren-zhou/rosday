@@ -13963,14 +13963,14 @@ MonoBehaviour:
   groundLM:
     serializedVersion: 2
     m_Bits: 256
-  wallCheckDistance: 0.25
+  wallCheckDistance: 0.27
   wallSlideSpeed: 1.3
   movementForceAir: 25
   airDragMultiplier: 0.7
   variableJumpHeightMultiplier: 0.5
   wallJumpDirection: {x: 1, y: 0.5}
   wallHopDirection: {x: 1, y: 0.2}
-  wallJumpForce: 20
+  wallJumpForce: 25
   wallHopForce: 15
   isGrounded: 0
   isOnWall: 0
@@ -14030,7 +14030,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206101459}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.018, y: -0.163, z: -8.121909}
+  m_LocalPosition: {x: 0, y: -0.136, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 774395179}

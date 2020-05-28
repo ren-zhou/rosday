@@ -38,6 +38,7 @@ public class RoyController : MonoBehaviour
 
     /* Extra movement*/
     public float dashSpeed;
+    public int dashLength;
 
     /* Keep track of states during gameplay. */
     private bool isFacingRight = true;
@@ -52,6 +53,7 @@ public class RoyController : MonoBehaviour
     private bool isNextToWall;
     private bool jumpedLastFrame;
     private bool canDash;
+    private int dashTimer;
 
     /* Inputs: */
     private float movementInputDirection;
@@ -76,8 +78,10 @@ public class RoyController : MonoBehaviour
         CheckIfWallSliding();
         CheckSurroundings();
         CheckMoveConditions();
+        DashCont();
         ApplyMovement();
         ClampVelocityY();
+
     }
 
     private void CheckInput()
@@ -93,7 +97,7 @@ public class RoyController : MonoBehaviour
         }
         if (Input.GetButtonDown("Dash"))
         {
-            Dash();
+            DashStart();
         }
     }
     private void CheckSurroundings()
@@ -139,6 +143,10 @@ public class RoyController : MonoBehaviour
 
     private void ApplyMovement()
     {
+        if (dashTimer > 0)
+        {
+            return;
+        }
         if (isGrounded)
         {
             if (movementInputDirection != 0)
@@ -253,12 +261,33 @@ public class RoyController : MonoBehaviour
         }
 
     }
-    private void Dash()
+    private void DashStart()
+    { 
+        if (canDash)
+        {
+            dashTimer = dashLength;
+            float dashDir = movementInputDirection == 0 ? facingDirection : movementInputDirection;
+            Vector2 yeet = new Vector2(dashSpeed * dashDir, 0);
+            rb.velocity = new Vector2(dashSpeed * dashDir, 0);
+            Debug.Log(dashDir);
+            Debug.Log(yeet);
+            canDash = false;
+        }
+    }
+    private void DashCont()
     {
-        float dashDir = movementInputDirection == 0 ? facingDirection : movementInputDirection;
-        rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
-        Debug.Log("Dash");
+        if (dashTimer > 1)
+        {
+            Debug.Log(Mathf.Sign(rb.velocity.x));
+            dashTimer -= 1;
+            rb.velocity = new Vector2(dashSpeed * Mathf.Sign(rb.velocity.x), 0);
 
+        }
+        else if (dashTimer == 1)
+        {
+            rb.velocity = new Vector2(moveSpeed * Mathf.Sign(rb.velocity.x), 0);
+            dashTimer -= 1;
+        }
     }
     private void OnDrawGizmos()
     {

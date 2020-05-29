@@ -155,11 +155,8 @@ public class RoyController : MonoBehaviour
         {
             if (movementInputDirection != 0)
             {
-                if (BelowMaxSpeed())
-                {
                     rb.AddForce(new Vector2(groundAcceleration * movementInputDirection, 0));
                     ClampVelocityX();
-                }
             }
             else if (Mathf.Abs(rb.velocity.x) > 0)
             {
@@ -171,7 +168,7 @@ public class RoyController : MonoBehaviour
                 }
             }
         }
-        else if (!isGrounded && !isWallSliding && movementInputDirection != 0 && BelowMaxSpeed())
+        else if (!isGrounded && !isWallSliding && movementInputDirection != 0)
         {
             rb.AddForce(new Vector2(airAcceleration * movementInputDirection, 0));
             ClampVelocityX();
@@ -283,6 +280,10 @@ public class RoyController : MonoBehaviour
     }
     private void DashCont()
     {
+        if (isOnWall)
+        {
+            dashTimer = 0;
+        }
         if (dashTimer > 1)
         {
             Debug.Log(Mathf.Sign(rb.velocity.x));
@@ -295,6 +296,7 @@ public class RoyController : MonoBehaviour
             rb.velocity = new Vector2(moveSpeed * Mathf.Sign(rb.velocity.x), 0);
             dashTimer -= 1;
         }
+
     }
     private void OnDrawGizmos()
     {

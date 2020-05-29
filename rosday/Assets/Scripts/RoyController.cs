@@ -53,8 +53,9 @@ public class RoyController : MonoBehaviour
     private bool isNextToWall;
     private bool jumpedLastFrame;
     private bool canDash;
-    private int dashTimer;
+    private int dashTimer = 0;
     private bool triedToJump;
+    private bool isCrouching;
 
     /* Inputs: */
     private float movementInputDirection;
@@ -87,6 +88,7 @@ public class RoyController : MonoBehaviour
 
     private void CheckInput()
     {
+        isCrouching = false;
         movementInputDirection = Input.GetAxisRaw("Horizontal");
         if (Input.GetButtonDown("Jump") || triedToJump)
         {
@@ -97,11 +99,14 @@ public class RoyController : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpDecreaseMultiplier);
         }
-        if (Input.GetButtonDown("Dash"))
+        else if (Input.GetButtonDown("Dash"))
         {
             DashStart();
         }
-
+        else if (Input.GetAxisRaw("Vertical") < 0)
+        {
+            Crouch();
+        }
     }
     private void CheckSurroundings()
     {
@@ -143,6 +148,8 @@ public class RoyController : MonoBehaviour
         anim.SetBool("isGrounded", isGrounded);
         anim.SetFloat("yVelocity", rb.velocity.y);
         anim.SetBool("isWallSliding", isWallSliding);
+        anim.SetBool("isDashing", dashTimer > 0);
+        anim.SetBool("isCrouching", isCrouching);
     }
 
     private void ApplyMovement()
@@ -297,6 +304,11 @@ public class RoyController : MonoBehaviour
             dashTimer -= 1;
         }
 
+    }
+
+    private void Crouch()
+    {
+        isCrouching = true;
     }
     private void OnDrawGizmos()
     {

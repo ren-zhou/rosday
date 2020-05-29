@@ -9,6 +9,8 @@ public class RoyController : MonoBehaviour
     private Animator anim;
     public Transform groundCheck;
     public Transform wallCheck;
+    private BoxCollider2D bc;
+    private float bcHeight;
 
     /* Parameters to fiddle with: */
 
@@ -66,6 +68,8 @@ public class RoyController : MonoBehaviour
         anim = GetComponent<Animator>();
         wallJumpDirection.Normalize();
         currMoveSpeed = moveSpeed;
+        bc = GetComponent<BoxCollider2D>();
+        bcHeight = bc.size.y;
     }
 
     void Update()
@@ -89,6 +93,8 @@ public class RoyController : MonoBehaviour
     private void CheckInput()
     {
         isCrouching = false;
+        bc.size = new Vector2(bc.size.x, bcHeight);
+        bc.offset = new Vector2(bc.offset.x, -0.02939785f);
         movementInputDirection = Input.GetAxisRaw("Horizontal");
         if (Input.GetButtonDown("Jump") || triedToJump)
         {
@@ -309,6 +315,8 @@ public class RoyController : MonoBehaviour
     private void Crouch()
     {
         isCrouching = true;
+        bc.size = new Vector2(bc.size.x, 0.6902368f);
+        bc.offset = new Vector2(bc.offset.x, 0.0326184f);
     }
     private void OnDrawGizmos()
     {

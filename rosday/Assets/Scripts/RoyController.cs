@@ -54,6 +54,7 @@ public class RoyController : MonoBehaviour
     private bool jumpedLastFrame;
     private bool canDash;
     private int dashTimer;
+    private bool triedToJump;
 
     /* Inputs: */
     private float movementInputDirection;
@@ -87,8 +88,9 @@ public class RoyController : MonoBehaviour
     private void CheckInput()
     {
         movementInputDirection = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") || triedToJump)
         {
+            triedToJump = false;
             Jump();
         }
         else if (Input.GetButtonUp("Jump") && jumpedLastFrame)
@@ -99,10 +101,12 @@ public class RoyController : MonoBehaviour
         {
             DashStart();
         }
+
     }
     private void CheckSurroundings()
     {
-        isGrounded = Physics2D.Raycast(groundCheck.position, -transform.up, groundCheckDistance, groundLM);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM);
+        //isGrounded = Physics2D.Raycast(groundCheck.position, -transform.up, groundCheckDistance, groundLM);
         isOnWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundLM);
         if (isOnWall)
         {
@@ -130,7 +134,7 @@ public class RoyController : MonoBehaviour
 
     private void CheckIfWallSliding()
     {
-        isWallSliding = isOnWall && !isGrounded && rb.velocity.y < 0;
+        isWallSliding = isOnWall && !isGrounded && rb.velocity.y < 0 && (movementInputDirection == facingDirection || isWallSliding);
     }
 
     private void UpdateAnimations()
@@ -174,6 +178,7 @@ public class RoyController : MonoBehaviour
         }
         else if (!isGrounded && !isWallSliding && movementInputDirection == 0 && Mathf.Abs(rb.velocity.x) > 0)
         {
+            Debug.Log(rb.velocity.x);
             float dir = Mathf.Sign(rb.velocity.x);
             rb.velocity = new Vector2(rb.velocity.x - airDeceleration * dir, rb.velocity.y);
             if (Mathf.Sign(rb.velocity.x) != dir && Mathf.Sign(rb.velocity.x) != 0)
@@ -234,6 +239,7 @@ public class RoyController : MonoBehaviour
         {
             jumpedLastFrame = false;
             Debug.Log("didn'tJumpLastFrame");
+            triedToJump = true;
         }
 
     }
@@ -248,6 +254,7 @@ public class RoyController : MonoBehaviour
         Debug.Log("wall jump");
         Debug.Log(forceToAdd);
         isWallSliding = false;
+        rb.velocity = Vector2.zero;
         rb.AddForce(forceToAdd, ForceMode2D.Impulse);
         Flip();
     }

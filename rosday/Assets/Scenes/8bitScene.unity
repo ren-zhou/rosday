@@ -13957,10 +13957,11 @@ MonoBehaviour:
   groundCheck: {fileID: 925133752}
   wallCheck: {fileID: 1206101460}
   moveSpeed: 5
+  currMoveSpeed: 0
   groundAcceleration: 25
-  groundDeceleration: 30
+  groundDeceleration: 1
   airAcceleration: 20
-  airDeceleration: 25
+  airDeceleration: 0.4
   maxFallSpeed: 20
   jumpForce: 10
   airJumpForce: 10
@@ -13968,12 +13969,13 @@ MonoBehaviour:
   wallSlideSpeed: 1.3
   wallJumpForce: 12.5
   jumpDecreaseMultiplier: 0.5
-  groundCheckDistance: 0.3
+  groundCheckDistance: 0.1
   wallCheckDistance: 0.27
   groundLM:
     serializedVersion: 2
     m_Bits: 256
-  dashSpeed: 20
+  dashSpeed: 12
+  dashLength: 7
 --- !u!1 &925133751
 GameObject:
   m_ObjectHideFlags: 0

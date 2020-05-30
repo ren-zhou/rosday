@@ -8,7 +8,9 @@ public class RoyController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     public Transform groundCheck;
-    public Transform wallCheck;
+    public Transform WallCheckTop;
+    public Transform WallCheckMid;
+    public Transform WallCheckBot;
     private BoxCollider2D bc;
     private float bcHeight;
 
@@ -53,6 +55,7 @@ public class RoyController : MonoBehaviour
     private int facingDirection = 1;
     private int lastWallDirection;
     private bool isNextToWall;
+    private bool isByWall;
     private bool jumpedLastFrame;
     private bool canDash;
     private int dashTimer = 0;
@@ -118,12 +121,15 @@ public class RoyController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM);
         //isGrounded = Physics2D.Raycast(groundCheck.position, -transform.up, groundCheckDistance, groundLM);
-        isOnWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundLM);
+        isOnWall = Physics2D.Raycast(WallCheckMid.position, transform.right, wallCheckDistance, groundLM);
         if (isOnWall)
         {
             lastWallDirection = facingDirection;
         }
-        isNextToWall = Physics2D.Raycast(wallCheck.position, -transform.right, wallCheckDistance + 0.05f, groundLM) || isOnWall;
+        isNextToWall = Physics2D.Raycast(WallCheckMid.position, -transform.right, wallCheckDistance + 0.05f, groundLM) || isOnWall;
+        isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, groundLM) ||
+            Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, groundLM) || isOnWall;
+        Debug.Log(isByWall);
     }
 
     private void CheckMoveConditions()
@@ -188,7 +194,6 @@ public class RoyController : MonoBehaviour
         }
         else if (!isGrounded && !isWallSliding && movementInputDirection == 0 && Mathf.Abs(rb.velocity.x) > 0)
         {
-            Debug.Log(rb.velocity.x);
             float dir = Mathf.Sign(rb.velocity.x);
             rb.velocity = new Vector2(rb.velocity.x - airDeceleration * dir, rb.velocity.y);
             if (Mathf.Sign(rb.velocity.x) != dir && Mathf.Sign(rb.velocity.x) != 0)
@@ -248,7 +253,6 @@ public class RoyController : MonoBehaviour
         else
         {
             jumpedLastFrame = false;
-            Debug.Log("didn'tJumpLastFrame");
             triedToJump = true;
         }
 
@@ -261,8 +265,6 @@ public class RoyController : MonoBehaviour
     private void WallJump()
     {
         Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * -lastWallDirection, wallJumpForce * wallJumpDirection.y);
-        Debug.Log("wall jump");
-        Debug.Log(forceToAdd);
         isWallSliding = false;
         rb.velocity = Vector2.zero;
         rb.AddForce(forceToAdd, ForceMode2D.Impulse);
@@ -286,20 +288,17 @@ public class RoyController : MonoBehaviour
             float dashDir = movementInputDirection == 0 ? facingDirection : movementInputDirection;
             Vector2 yeet = new Vector2(dashSpeed * dashDir, 0);
             rb.velocity = new Vector2(dashSpeed * dashDir, 0);
-            Debug.Log(dashDir);
-            Debug.Log(yeet);
             canDash = false;
         }
     }
     private void DashCont()
     {
-        if (isOnWall)
+        if (isByWall)
         {
             dashTimer = 0;
         }
         if (dashTimer > 1)
         {
-            Debug.Log(Mathf.Sign(rb.velocity.x));
             dashTimer -= 1;
             rb.velocity = new Vector2(dashSpeed * Mathf.Sign(rb.velocity.x), 0);
 
@@ -321,6 +320,6 @@ public class RoyController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckDistance);
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
+        Gizmos.DrawLine(WallCheckMid.position, new Vector3(WallCheckMid.position.x + wallCheckDistance, WallCheckMid.position.y, WallCheckMid.position.z));
     }
 }

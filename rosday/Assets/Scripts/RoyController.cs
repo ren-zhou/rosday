@@ -39,6 +39,7 @@ public class RoyController : MonoBehaviour
     public float groundCheckDistance = 0.3f;
     public float wallCheckDistance;
     public LayerMask groundLM;
+    public LayerMask slideLM;
 
     /* Extra movement*/
     public float dashSpeed;
@@ -49,18 +50,23 @@ public class RoyController : MonoBehaviour
     private bool isWalking;
     private bool isWallSliding;
     private bool isGrounded;
+
     private bool isOnWall;
-    private bool canGroundJump;
-    private bool canAirJump;
-    private int facingDirection = 1;
-    private int lastWallDirection;
     private bool isNextToWall;
     private bool isByWall;
+
+    private bool canGroundJump;
+    private bool canAirJump;
+    private bool triedToJump;
+    private int facingDirection = 1;
+    private int lastWallDirection;
+
     private bool jumpedLastFrame;
     private bool canDash;
     private int dashTimer = 0;
-    private bool triedToJump;
+
     private bool isCrouching;
+    private float lastY;
 
     /* Inputs: */
     private float movementInputDirection;
@@ -73,6 +79,7 @@ public class RoyController : MonoBehaviour
         currMoveSpeed = moveSpeed;
         bc = GetComponent<BoxCollider2D>();
         bcHeight = bc.size.y;
+        lastY = rb.transform.position.y;
     }
 
     void Update()
@@ -84,13 +91,13 @@ public class RoyController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckIfWallSliding();
         CheckSurroundings();
+        CheckIfWallSliding();
         CheckMoveConditions();
         DashCont();
         ApplyMovement();
         ClampVelocityY();
-
+        lastY = rb.transform.position.y;
     }
 
     private void CheckInput()
@@ -119,7 +126,7 @@ public class RoyController : MonoBehaviour
     }
     private void CheckSurroundings()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM) || Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, slideLM);
         //isGrounded = Physics2D.Raycast(groundCheck.position, -transform.up, groundCheckDistance, groundLM);
         isOnWall = Physics2D.Raycast(WallCheckMid.position, transform.right, wallCheckDistance, groundLM);
         if (isOnWall)
@@ -129,7 +136,13 @@ public class RoyController : MonoBehaviour
         isNextToWall = Physics2D.Raycast(WallCheckMid.position, -transform.right, wallCheckDistance + 0.05f, groundLM) || isOnWall;
         isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, groundLM) ||
             Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, groundLM) || isOnWall;
+
+        isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, slideLM) ||
+            Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, slideLM) || isByWall ||
+            Physics2D.Raycast(WallCheckMid.position, transform.right, wallCheckDistance, slideLM);
+
         Debug.Log(isByWall);
+
     }
 
     private void CheckMoveConditions()
@@ -288,6 +301,7 @@ public class RoyController : MonoBehaviour
             float dashDir = movementInputDirection == 0 ? facingDirection : movementInputDirection;
             Vector2 yeet = new Vector2(dashSpeed * dashDir, 0);
             rb.velocity = new Vector2(dashSpeed * dashDir, 0);
+            //rb.position = new Vector2(rb.position.x, lastY);
             canDash = false;
         }
     }
@@ -296,19 +310,21 @@ public class RoyController : MonoBehaviour
         if (isByWall)
         {
             dashTimer = 0;
+            return;
         }
         if (dashTimer > 1)
         {
+            rb.velocity = new Vector2(dashSpeed * Mathf.Sign(rb.velocity.x), 9.81f * Time.fixedDeltaTime * 3);
+            //rb.position = new Vector2(rb.position.x, lastY);
             dashTimer -= 1;
-            rb.velocity = new Vector2(dashSpeed * Mathf.Sign(rb.velocity.x), 0);
-
         }
         else if (dashTimer == 1)
         {
             rb.velocity = new Vector2(moveSpeed * Mathf.Sign(rb.velocity.x), 0);
+            //rb.position = new Vector2(rb.position.x, lastY);
             dashTimer -= 1;
-        }
 
+        }
     }
 
     private void Crouch()

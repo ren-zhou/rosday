@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - Slide
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Platforms
     uniqueID: 3935214869
+    locked: 0
+  - name: Spirits
+    uniqueID: 385932809
     locked: 0
   - name: Player
     uniqueID: 490991051

@@ -26060,6 +26060,7 @@ MonoBehaviour:
     m_Bits: 512
   dashSpeed: 12
   dashLength: 12
+  dashCooldown: 5
 --- !u!1 &925133751
 GameObject:
   m_ObjectHideFlags: 0
@@ -26349,7 +26350,7 @@ Tilemap:
   - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: 966ae95961ef93e4284afc7fee243e58, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: e8dfb008e2f9760439d79f85991f0476, type: 2}
+    m_Data: {fileID: 11400000, guid: 305e934d4b9361d4ba3936a73482b7e9, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 2
     m_Data: {fileID: -7888445168891756581, guid: 3b0c9ecba4d75364cb4efca5576313e2,
@@ -26358,7 +26359,7 @@ Tilemap:
     m_Data: {fileID: -7836492271309376763, guid: 3b0c9ecba4d75364cb4efca5576313e2,
       type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 4128437567969801184, guid: b6a509e54ebe9a44ab0169bac5bc0054,
+    m_Data: {fileID: -3514519392859734454, guid: b6a509e54ebe9a44ab0169bac5bc0054,
       type: 3}
   m_TileMatrixArray:
   - m_RefCount: 6
@@ -32833,9 +32834,12 @@ GameObject:
   - component: {fileID: 1685802437}
   - component: {fileID: 1685802436}
   - component: {fileID: 1685802435}
+  - component: {fileID: 1685802438}
+  - component: {fileID: 1685802439}
+  - component: {fileID: 1685802440}
   m_Layer: 0
   m_Name: Yuzu Guard
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32924,6 +32928,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1685802438
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685802434}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.30351222, y: -0.21874993}
+  m_Size: {x: 1.8199507, y: 0.5625002}
+  m_Direction: 1
+--- !u!50 &1685802439
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685802434}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &1685802440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685802434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 989386e6852c18448bc8e2908a5c6cea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1761412795
 GameObject:
   m_ObjectHideFlags: 0

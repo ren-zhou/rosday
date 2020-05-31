@@ -44,6 +44,7 @@ public class RoyController : MonoBehaviour
     /* Extra movement*/
     public float dashSpeed;
     public int dashLength;
+    public int dashCooldown;
 
     /* Keep track of states during gameplay. */
     private bool isFacingRight = true;
@@ -64,9 +65,9 @@ public class RoyController : MonoBehaviour
     private bool jumpedLastFrame;
     private bool canDash;
     private int dashTimer = 0;
+    private int tillNextDash = 0;
 
     private bool isCrouching;
-    private float lastY;
 
     /* Inputs: */
     private float movementInputDirection;
@@ -79,7 +80,6 @@ public class RoyController : MonoBehaviour
         currMoveSpeed = moveSpeed;
         bc = GetComponent<BoxCollider2D>();
         bcHeight = bc.size.y;
-        lastY = rb.transform.position.y;
     }
 
     void Update()
@@ -97,7 +97,7 @@ public class RoyController : MonoBehaviour
         DashCont();
         ApplyMovement();
         ClampVelocityY();
-        lastY = rb.transform.position.y;
+        
     }
 
     private void CheckInput()
@@ -140,16 +140,14 @@ public class RoyController : MonoBehaviour
         isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, slideLM) ||
             Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, slideLM) || isByWall ||
             Physics2D.Raycast(WallCheckMid.position, transform.right, wallCheckDistance, slideLM);
-
-        Debug.Log(isByWall);
-
     }
 
     private void CheckMoveConditions()
     {
+        tillNextDash = tillNextDash > 0 ? tillNextDash - 1 : 0;
         canGroundJump = isGrounded;
         canAirJump = isGrounded || canAirJump || isOnWall;
-        canDash = isGrounded || canDash || isOnWall;
+        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0 && !(dashTimer > 0);
     }
 
     private void CheckAnimConditions()
@@ -323,7 +321,7 @@ public class RoyController : MonoBehaviour
             rb.velocity = new Vector2(moveSpeed * Mathf.Sign(rb.velocity.x), 0);
             //rb.position = new Vector2(rb.position.x, lastY);
             dashTimer -= 1;
-
+            tillNextDash = dashCooldown;
         }
     }
 
@@ -333,6 +331,15 @@ public class RoyController : MonoBehaviour
         bc.size = new Vector2(bc.size.x, 0.6902368f);
         bc.offset = new Vector2(bc.offset.x, 0.0326184f);
     }
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        RoyNPC interactable = collision.GetComponent<RoyNPC>();
+        if (interactable != null && Input.GetButtonDown("Interact"))
+        {
+            interactable.Act();
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckDistance);

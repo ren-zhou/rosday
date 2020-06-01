@@ -45,6 +45,7 @@ public class RoyController : MonoBehaviour
     public float dashSpeed;
     public int dashLength;
     public int dashCooldown;
+    private bool hasDash;
 
     /* Keep track of states during gameplay. */
     private bool isFacingRight = true;
@@ -68,6 +69,8 @@ public class RoyController : MonoBehaviour
     private int tillNextDash = 0;
 
     private bool isCrouching;
+    public float crouchSpeed;
+    private bool canInput = true;
 
     /* Inputs: */
     private float movementInputDirection;
@@ -102,9 +105,11 @@ public class RoyController : MonoBehaviour
 
     private void CheckInput()
     {
-        isCrouching = false;
-        bc.size = new Vector2(bc.size.x, bcHeight);
-        bc.offset = new Vector2(bc.offset.x, -0.02939785f);
+        if (dashTimer > 0 || !canInput)
+        {
+            return;
+        }
+      
         movementInputDirection = Input.GetAxisRaw("Horizontal");
         if (Input.GetButtonDown("Jump") || triedToJump)
         {
@@ -122,6 +127,9 @@ public class RoyController : MonoBehaviour
         else if (Input.GetAxisRaw("Vertical") < 0)
         {
             Crouch();
+        } else if (Input.GetAxisRaw("Vertical") >= 0)
+        {
+            Uncrouch();
         }
     }
     private void CheckSurroundings()
@@ -147,7 +155,7 @@ public class RoyController : MonoBehaviour
         tillNextDash = tillNextDash > 0 ? tillNextDash - 1 : 0;
         canGroundJump = isGrounded;
         canAirJump = isGrounded || canAirJump || isOnWall;
-        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0 && !(dashTimer > 0);
+        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0 && !(dashTimer > 0) && hasDash;
     }
 
     private void CheckAnimConditions()
@@ -177,7 +185,7 @@ public class RoyController : MonoBehaviour
 
     private void ApplyMovement()
     {
-        if (dashTimer > 0)
+        if (dashTimer > 0 || !canInput)
         {
             return;
         }
@@ -330,14 +338,38 @@ public class RoyController : MonoBehaviour
         isCrouching = true;
         bc.size = new Vector2(bc.size.x, 0.6902368f);
         bc.offset = new Vector2(bc.offset.x, 0.0326184f);
+        currMoveSpeed = crouchSpeed;
+    }
+
+    private void Uncrouch()
+    {
+        isCrouching = false;
+        bc.size = new Vector2(bc.size.x, bcHeight);
+        bc.offset = new Vector2(bc.offset.x, -0.02939785f);
+        currMoveSpeed = moveSpeed;
     }
     public void OnTriggerStay2D(Collider2D collision)
     {
         RoyNPC interactable = collision.GetComponent<RoyNPC>();
-        if (interactable != null && Input.GetButtonDown("Interact"))
+        if (interactable != null && Input.GetButtonUp("Interact"))
         {
             interactable.Act();
         }
+    }
+
+    public void LockInputs()
+    {
+        canInput = false;
+    }
+
+    public void ReleaseInputs()
+    {
+        canInput = true;
+    }
+
+    public void UnlockDash()
+    {
+        hasDash = true;
     }
 
     private void OnDrawGizmos()

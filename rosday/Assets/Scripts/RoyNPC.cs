@@ -6,6 +6,8 @@ public class RoyNPC : MonoBehaviour
 {
     public void Act()
     {
-        Debug.Log("yuzu");
+        TextboxManager box = FindObjectOfType<TextboxManager>();
+        box.Activate();
+        box.FreezePlayer();
     }
 }

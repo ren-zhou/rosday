@@ -9,7 +9,8 @@ public class RoyController : MonoBehaviour
     private Animator anim;
     public Transform groundCheck;
     public Transform WallCheckTop;
-    public Transform WallCheckMid;
+    public Transform WallCheckMidA;
+    public Transform WallCheckMidB;
     public Transform WallCheckBot;
     private BoxCollider2D bc;
     private float bcHeight;
@@ -59,7 +60,7 @@ public class RoyController : MonoBehaviour
 
     private bool canGroundJump;
     private bool canAirJump;
-    private bool triedToJump;
+    //private bool triedToJump;
     private int facingDirection = 1;
     private int lastWallDirection;
 
@@ -111,9 +112,10 @@ public class RoyController : MonoBehaviour
         }
       
         movementInputDirection = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("Jump") || triedToJump)
+        //if (Input.GetButtonDown("Jump") || triedToJump)
+        if (Input.GetButtonDown("Jump"))
         {
-            triedToJump = false;
+            //triedToJump = false;
             Jump();
         }
         else if (Input.GetButtonUp("Jump") && jumpedLastFrame)
@@ -136,18 +138,19 @@ public class RoyController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM) || Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, slideLM);
         //isGrounded = Physics2D.Raycast(groundCheck.position, -transform.up, groundCheckDistance, groundLM);
-        isOnWall = Physics2D.Raycast(WallCheckMid.position, transform.right, wallCheckDistance, groundLM);
+        isOnWall = Physics2D.OverlapArea(WallCheckMidA.position, WallCheckMidB.position, groundLM) ||
+            Physics2D.OverlapArea(WallCheckMidA.position, WallCheckMidB.position, slideLM);
         if (isOnWall)
         {
             lastWallDirection = facingDirection;
         }
-        isNextToWall = Physics2D.Raycast(WallCheckMid.position, -transform.right, wallCheckDistance + 0.05f, groundLM) || isOnWall;
+        isNextToWall = Physics2D.Raycast(WallCheckMidA.position, -transform.right, wallCheckDistance + 0.05f, groundLM) || isOnWall;
         isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, groundLM) ||
             Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, groundLM) || isOnWall;
 
         isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, slideLM) ||
             Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, slideLM) || isByWall ||
-            Physics2D.Raycast(WallCheckMid.position, transform.right, wallCheckDistance, slideLM);
+            Physics2D.Raycast(WallCheckMidA.position, transform.right, wallCheckDistance, slideLM);
     }
 
     private void CheckMoveConditions()
@@ -272,7 +275,7 @@ public class RoyController : MonoBehaviour
         else
         {
             jumpedLastFrame = false;
-            triedToJump = true;
+            //triedToJump = true;
         }
 
     }
@@ -375,6 +378,6 @@ public class RoyController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckDistance);
-        Gizmos.DrawLine(WallCheckMid.position, new Vector3(WallCheckMid.position.x + wallCheckDistance, WallCheckMid.position.y, WallCheckMid.position.z));
+        Gizmos.DrawLine(WallCheckMidA.position, new Vector3(WallCheckMidA.position.x + wallCheckDistance, WallCheckMidA.position.y, WallCheckMidA.position.z));
     }
 }

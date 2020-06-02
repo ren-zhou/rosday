@@ -138,8 +138,7 @@ public class RoyController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM) || Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, slideLM);
         //isGrounded = Physics2D.Raycast(groundCheck.position, -transform.up, groundCheckDistance, groundLM);
-        isOnWall = Physics2D.OverlapArea(WallCheckMidA.position, WallCheckMidB.position, groundLM) ||
-            Physics2D.OverlapArea(WallCheckMidA.position, WallCheckMidB.position, slideLM);
+        isOnWall = Physics2D.OverlapArea(WallCheckMidA.position, WallCheckMidB.position, groundLM);
         if (isOnWall)
         {
             lastWallDirection = facingDirection;

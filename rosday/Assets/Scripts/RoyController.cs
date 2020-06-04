@@ -184,7 +184,7 @@ public class RoyController : MonoBehaviour
         anim.SetFloat("yVelocity", rb.velocity.y);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isDashing", dashTimer > 0);
-        anim.SetBool("isCrouching", isCrouching);
+        anim.SetBool("isCrouching", Input.GetAxisRaw("Vertical") < 0);
     }
 
     private void ApplyMovement()

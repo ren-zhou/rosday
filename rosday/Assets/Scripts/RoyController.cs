@@ -13,6 +13,8 @@ public class RoyController : MonoBehaviour
     public Transform WallCheckMidB;
     public Transform WallCheckBot;
     private BoxCollider2D bc;
+    private Vector2 bcSize;
+    private Vector2 bcOffset;
     private float bcHeight;
 
     /* Parameters to fiddle with: */
@@ -83,7 +85,8 @@ public class RoyController : MonoBehaviour
         wallJumpDirection.Normalize();
         currMoveSpeed = moveSpeed;
         bc = GetComponent<BoxCollider2D>();
-        bcHeight = bc.size.y;
+        bcSize = bc.size;
+        bcOffset = bc.offset;
     }
 
     void Update()
@@ -137,7 +140,6 @@ public class RoyController : MonoBehaviour
     private void CheckSurroundings()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM) || Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, slideLM);
-        //isGrounded = Physics2D.Raycast(groundCheck.position, -transform.up, groundCheckDistance, groundLM);
         isOnWall = Physics2D.OverlapArea(WallCheckMidA.position, WallCheckMidB.position, groundLM);
         if (isOnWall)
         {
@@ -338,16 +340,16 @@ public class RoyController : MonoBehaviour
     private void Crouch()
     {
         isCrouching = true;
-        bc.size = new Vector2(bc.size.x, 0.6902368f);
-        bc.offset = new Vector2(bc.offset.x, 0.0326184f);
+        bc.size = bcSize;
+        bc.offset = bcOffset;
         currMoveSpeed = crouchSpeed;
     }
 
     private void Uncrouch()
     {
         isCrouching = false;
-        bc.size = new Vector2(bc.size.x, bcHeight);
-        bc.offset = new Vector2(bc.offset.x, -0.02939785f);
+        bc.size = bcSize;
+        bc.offset = bcOffset;
         currMoveSpeed = moveSpeed;
     }
     public void OnTriggerStay2D(Collider2D collision)

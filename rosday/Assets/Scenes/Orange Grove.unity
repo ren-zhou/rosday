@@ -17654,15 +17654,15 @@ MonoBehaviour:
   WallCheckMidA: {fileID: 1652891019}
   WallCheckMidB: {fileID: 1303933821}
   WallCheckBot: {fileID: 781613087}
-  moveSpeed: 5
+  moveSpeed: 7
   currMoveSpeed: 0
-  groundAcceleration: 25
+  groundAcceleration: 30
   groundDeceleration: 1
   airAcceleration: 20
   airDeceleration: 0.4
   maxFallSpeed: 20
-  jumpForce: 10
-  airJumpForce: 10
+  jumpForce: 12
+  airJumpForce: 11
   wallJumpDirection: {x: 1, y: 3}
   wallSlideSpeed: 1.3
   wallJumpForce: 12.5
@@ -17678,7 +17678,7 @@ MonoBehaviour:
   dashSpeed: 12
   dashLength: 12
   dashCooldown: 5
-  crouchSpeed: 3
+  crouchSpeed: 4
 --- !u!95 &535260560
 Animator:
   serializedVersion: 3
@@ -17782,7 +17782,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 490991051
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 1344893270370958679, guid: 2d8bfa04eccd940478db273830232581,
     type: 3}
@@ -17941,7 +17941,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 385932809
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -6822560634342977700, guid: b6a509e54ebe9a44ab0169bac5bc0054,
     type: 3}
@@ -18204,11 +18204,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AssetsPPU: 32
+  m_AssetsPPU: 16
   m_RefResolutionX: 320
   m_RefResolutionY: 180
   m_UpscaleRT: 0
-  m_PixelSnapping: 1
+  m_PixelSnapping: 0
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
@@ -18412,7 +18412,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -359752427
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -28301,7 +28301,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 850363914}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -28862,7 +28862,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 5
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 535260564}
@@ -29003,7 +29003,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -359752427
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}

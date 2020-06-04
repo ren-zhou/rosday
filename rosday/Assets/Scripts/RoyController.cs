@@ -184,7 +184,7 @@ public class RoyController : MonoBehaviour
         anim.SetFloat("yVelocity", rb.velocity.y);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isDashing", dashTimer > 0);
-        anim.SetBool("isCrouching", Input.GetAxisRaw("Vertical") < 0);
+        anim.SetBool("isCrouching", isCrouching);
     }
 
     private void ApplyMovement()
@@ -255,6 +255,7 @@ public class RoyController : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
+        //transform.localScale = new Vector3(-1*facingDirection, 1, 1);
         facingDirection *= -1;
     }
 

@@ -48,7 +48,7 @@ public class RoyController : MonoBehaviour
     public float dashSpeed;
     public int dashLength;
     public int dashCooldown;
-    private bool hasDash;
+    private Dictionary<string, bool> abilityDic;
 
     /* Keep track of states during gameplay. */
     private bool isFacingRight = true;
@@ -87,6 +87,7 @@ public class RoyController : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         bcSize = bc.size;
         bcOffset = bc.offset;
+        abilityDic = new Dictionary<string, bool>();
     }
 
     void Update()
@@ -118,6 +119,7 @@ public class RoyController : MonoBehaviour
         //if (Input.GetButtonDown("Jump") || triedToJump)
         if (Input.GetButtonDown("Jump"))
         {
+            Uncrouch();
             //triedToJump = false;
             Jump();
         }
@@ -127,6 +129,7 @@ public class RoyController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Dash"))
         {
+            Uncrouch();
             DashStart();
         }
         else if (Input.GetAxisRaw("Vertical") < 0)
@@ -159,7 +162,7 @@ public class RoyController : MonoBehaviour
         tillNextDash = tillNextDash > 0 ? tillNextDash - 1 : 0;
         canGroundJump = isGrounded;
         canAirJump = isGrounded || canAirJump || isOnWall;
-        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0 && !(dashTimer > 0) && hasDash;
+        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0 && !(dashTimer > 0) && hasAbility("dash");
     }
 
     private void CheckAnimConditions()
@@ -186,7 +189,7 @@ public class RoyController : MonoBehaviour
         anim.SetBool("isDashing", dashTimer > 0);
         anim.SetBool("isCrouching", isCrouching);
     }
-
+    
     private void ApplyMovement()
     {
         if (dashTimer > 0 || !canInput)
@@ -227,6 +230,10 @@ public class RoyController : MonoBehaviour
         if (isWallSliding && rb.velocity.y < -wallSlideSpeed)
         {
             rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+        }
+        if (!isGrounded && isCrouching)
+        {
+            Uncrouch();
         }
     }
 
@@ -340,22 +347,28 @@ public class RoyController : MonoBehaviour
 
     private void Crouch()
     {
-        isCrouching = true;
-        bc.size = bcSize;
-        bc.offset = bcOffset;
-        currMoveSpeed = crouchSpeed;
+        if (isGrounded)
+        {
+            isCrouching = true;
+            bc.size = bcSize;
+            bc.offset = bcOffset;
+            currMoveSpeed = crouchSpeed;
+        }
     }
 
     private void Uncrouch()
     {
-        isCrouching = false;
-        bc.size = bcSize;
-        bc.offset = bcOffset;
-        currMoveSpeed = moveSpeed;
+        if (isCrouching)
+        {
+            isCrouching = false;
+            bc.size = bcSize;
+            bc.offset = bcOffset;
+            currMoveSpeed = moveSpeed;
+        }
     }
     public void OnTriggerStay2D(Collider2D collision)
     {
-        RoyNPC interactable = collision.GetComponent<RoyNPC>();
+        Interactable interactable = collision.GetComponent<Interactable>();
         if (interactable != null && Input.GetButtonUp("Interact"))
         {
             interactable.Act();
@@ -372,14 +385,19 @@ public class RoyController : MonoBehaviour
         canInput = true;
     }
 
-    public void UnlockDash()
+    public void UnlockAbility(string ability)
     {
-        hasDash = true;
+        if (!abilityDic.ContainsKey(ability))
+        {
+            abilityDic.Add(ability, true);
+        }
     }
 
-    private void OnDrawGizmos()
+    private bool hasAbility(string ability)
     {
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckDistance);
-        Gizmos.DrawLine(WallCheckMidA.position, new Vector3(WallCheckMidA.position.x + wallCheckDistance, WallCheckMidA.position.y, WallCheckMidA.position.z));
+        bool ret = false;
+        abilityDic.TryGetValue("dash", out ret);
+        return ret;
     }
+
 }

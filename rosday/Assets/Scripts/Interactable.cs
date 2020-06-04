@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoyNPC : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
-    public void Act()
+    public virtual void Act()
     {
         TextboxManager box = FindObjectOfType<TextboxManager>();
         box.Activate();

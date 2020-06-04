@@ -10,34 +10,30 @@ public class TextboxManager : MonoBehaviour
     public Text text;
 
     public TextAsset textfile;
-    public string[] lines;
+    private string[] lines;
 
     public int currentLine;
     public int endAtLine;
+    private bool linesUpdated;
 
     public RoyController player;
     private void Start()
     {
         textbox.SetActive(false);
         player = FindObjectOfType<RoyController>();
-
-        if (textfile != null)
-        {
-            lines = textfile.text.Split('\n');
-        }
-
-        if(endAtLine == 0)
-        {
-            endAtLine = lines.Length;
-        }
-
     }
 
     private void Update()
     {
+        if (!linesUpdated)
+        {
+            lines = textfile.text.Split('\n');
+            linesUpdated = true;
+            endAtLine = lines.Length;
+        }
+
         if (currentLine < endAtLine && textbox.activeInHierarchy)
         {
-            player.UnlockDash();
             text.text = lines[currentLine];
             if(Input.GetButtonDown("Interact"))
             {
@@ -66,4 +62,22 @@ public class TextboxManager : MonoBehaviour
     {
         player.ReleaseInputs();
     }
+
+    public void ResetText()
+    {
+        linesUpdated = false;
+        currentLine = 0;
+    }
+
+    public void SetText(TextAsset file)
+    {
+        ResetText();
+        textfile = file;
+        lines = textfile.text.Split('\n');
+        endAtLine = lines.Length;
+        linesUpdated = true;
+
+
+    }
+    
 }

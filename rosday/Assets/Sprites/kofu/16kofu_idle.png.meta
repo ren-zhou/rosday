@@ -128,12 +128,12 @@ TextureImporter:
       name: 16kofu_idle_1
       rect:
         serializedVersion: 2
-        x: 21
+        x: 20
         y: 0
-        width: 18
+        width: 19
         height: 27
       alignment: 9
-      pivot: {x: 0.5, y: 0.4814815}
+      pivot: {x: 0.5263158, y: 0.4814815}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

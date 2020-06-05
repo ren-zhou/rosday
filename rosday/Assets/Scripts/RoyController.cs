@@ -366,14 +366,14 @@ public class RoyController : MonoBehaviour
             currMoveSpeed = moveSpeed;
         }
     }
-    public void OnTriggerStay2D(Collider2D collision)
-    {
-        Interactable interactable = collision.GetComponent<Interactable>();
-        if (interactable != null && Input.GetButtonUp("Interact"))
-        {
-            interactable.Act();
-        }
-    }
+    //public void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    Interactable interactable = collision.GetComponent<Interactable>();
+    //    if (interactable != null && Input.GetButtonUp("Interact"))
+    //    {
+    //        interactable.Act();
+    //    }
+    //}
 
     public void LockInputs()
     {

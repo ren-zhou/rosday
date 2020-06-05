@@ -6,8 +6,8 @@ public class Interactable : MonoBehaviour
 {
     public virtual void Act()
     {
-        TextboxManager box = FindObjectOfType<TextboxManager>();
-        box.Activate();
-        box.FreezePlayer();
+        //TextboxManager box = FindObjectOfType<TextboxManager>();
+        //box.Activate();
+        //box.FreezePlayer();
     }
 }

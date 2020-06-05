@@ -10,6 +10,8 @@ public class NPC : Interactable
     private string npc_name;
     TextboxManager box;
 
+    private bool inAction;
+
     RoyController player;
 
     private void Start()
@@ -19,15 +21,25 @@ public class NPC : Interactable
     }
     public override void Act()
     {
-        Debug.Log("hi");
-        setText();
-        box.Activate();
-        box.FreezePlayer();
-        player.UnlockAbility("dash");
+        if (!inAction)
+        {
+            Debug.Log("hi");
+            SetText();
+            box.Activate();
+            box.FreezePlayer();
+            player.UnlockAbility("dash");
+            inAction = true;
+        }
+
     }
 
-    private void setText()
+    private void SetText()
     {
         box.SetText(dialogueFile);
+    }
+
+    public void Reactivate()
+    {
+        inAction = false;
     }
 }

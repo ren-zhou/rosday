@@ -107,12 +107,12 @@ TextureImporter:
       name: mayor_lemon_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 0
         y: 0
-        width: 13
-        height: 22
+        width: 15
+        height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -128,10 +128,10 @@ TextureImporter:
       name: mayor_lemon_1
       rect:
         serializedVersion: 2
-        x: 18
+        x: 21
         y: 0
-        width: 13
-        height: 23
+        width: 15
+        height: 26
       alignment: 9
       pivot: {x: 0.5, y: 0.47826087}
       border: {x: 0, y: 0, z: 0, w: 0}

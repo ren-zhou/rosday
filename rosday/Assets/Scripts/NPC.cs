@@ -8,38 +8,45 @@ public class NPC : Interactable
     private TextAsset dialogueFile;
     [SerializeField]
     private string npc_name;
-    TextboxManager box;
+    DialogueManager box;
 
-    private bool inAction;
+
+    [SerializeField] private GameObject talkToMe;
 
     RoyController player;
 
     private void Start()
     {
-        box = FindObjectOfType<TextboxManager>();
+        box = FindObjectOfType<DialogueManager>();
         player = FindObjectOfType<RoyController>();
+        SetName(npc_name);
+        talkToMe.SetActive(false);
     }
     public override void Act()
     {
-        if (!inAction)
+        if (!isActive())
         {
-            Debug.Log("hi");
             SetText();
+            box.SetInter(this);
             box.Activate();
-            box.FreezePlayer();
             player.UnlockAbility("dash");
-            inAction = true;
+            Activate();
         }
 
     }
 
-    private void SetText()
+    public override void OnEnter()
     {
-        box.SetText(dialogueFile);
+        talkToMe.SetActive(true);
     }
 
-    public void Reactivate()
+    public override void OnExit()
     {
-        inAction = false;
+        talkToMe.SetActive(false);
+    }
+
+    private void SetText()
+    {
+        box.SetDialogueFile(dialogueFile);
     }
 }

@@ -12,6 +12,7 @@ public class PlayerInteract : MonoBehaviour
         {
             Debug.Log(other.name);
             currInter = other.gameObject;
+            currInter.SendMessage("OnEnter");
         }
     }
 
@@ -19,6 +20,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (other.CompareTag("Interactable") && other.gameObject == currInter)
         {
+            currInter.SendMessage("OnExit");
             currInter = null;
         }
     }

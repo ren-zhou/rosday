@@ -17,7 +17,7 @@ TagManager:
   - 
   - Ground
   - Slide
-  - 
+  - Water
   - 
   - 
   - 
@@ -57,6 +57,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 490991051
+    locked: 0
+  - name: Water
+    uniqueID: 3505041365
     locked: 0
   - name: Platforms
     uniqueID: 3935214869

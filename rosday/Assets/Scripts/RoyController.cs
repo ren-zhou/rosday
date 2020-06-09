@@ -378,6 +378,7 @@ public class RoyController : MonoBehaviour
     public void LockInputs()
     {
         canInput = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     public void ReleaseInputs()

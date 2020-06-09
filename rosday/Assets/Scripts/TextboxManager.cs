@@ -17,6 +17,8 @@ public class TextboxManager : MonoBehaviour
     private bool linesUpdated;
 
     public RoyController player;
+
+    private int cpf = 1;
     private void Start()
     {
         textbox.SetActive(false);
@@ -27,9 +29,7 @@ public class TextboxManager : MonoBehaviour
     {
         if (!linesUpdated)
         {
-            lines = textfile.text.Split('\n');
-            linesUpdated = true;
-            endAtLine = lines.Length;
+            SetText(textfile);
         }
 
         if (currentLine < endAtLine && textbox.activeInHierarchy)
@@ -44,6 +44,7 @@ public class TextboxManager : MonoBehaviour
             textbox.SetActive(false);
             currentLine = 0;
             Unfreeze();
+
         }
     }
 
@@ -76,8 +77,6 @@ public class TextboxManager : MonoBehaviour
         lines = textfile.text.Split('\n');
         endAtLine = lines.Length;
         linesUpdated = true;
-
-
     }
     
 }

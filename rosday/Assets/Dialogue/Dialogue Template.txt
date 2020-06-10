@@ -1,0 +1,25 @@
+Ordered Dialogue 1, speech bubble 1.
+Ordered Dialogue 1, speech bubble 2.@
+OD2, sb1
+OD2, sb2
+OD2, sb3@
+OD3, sb1
+>>>>>
+Random1@
+Random2@
+Random3@
+Random4@
+Random5
+<><><><><>
+Ordered Dialogue 2.1, speech bubble 1.
+Ordered Dialogue 2.1, speech bubble 2.@
+OD2.2, sb1
+OD2.2, sb2
+OD2.2, sb3@
+OD2.3, sb1
+>>>>>
+Random2.1@
+Random2.2@
+Random2.3@
+Random2.4@
+Random2.5

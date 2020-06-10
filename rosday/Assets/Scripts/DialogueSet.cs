@@ -3,35 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using static System.Random;
 
-public class DialogueSet : MonoBehaviour
+public class DialogueSet
 {
     private Queue<string> orderedDialogue;
 
-    private List<string> randomDialogue;
+    private string[] randomDialogue;
 
     private int seed;
 
     private System.Random random;
 
-    void Start()
-    {
-        Random.InitState(seed);
-        random = new System.Random(seed);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private int lastRandom;
 
     public string nextLine()
     {
+        string next;
         if (orderedDialogue.Count > 0)
         {
-            return orderedDialogue.Dequeue();
+            next = orderedDialogue.Dequeue();
+        } else
+        {
+            int index;
+            do
+            {
+                index = random.Next(0, randomDialogue.Length);
+            }
+            while (lastRandom == index && randomDialogue.Length > 1);
+            lastRandom = index;
+            next = randomDialogue[index];
         }
-        int index = random.Next(0, randomDialogue.Count);
-        return randomDialogue[index];
+        next = next.Trim('\r', '\n');
+        return next;
+    }
+
+    public DialogueSet(string text)
+    {
+        Random.InitState(seed);
+        random = new System.Random(seed);
+        orderedDialogue = new Queue<string>();
+        lastRandom = -1;
+
+        string[] sep = { ">>>>>" };
+        string[] sets = text.Split(sep, System.StringSplitOptions.RemoveEmptyEntries);
+        if (sets.Length == 1)
+        {
+            randomDialogue = (sets[0].Split('@'));
+        } else
+        {
+            randomDialogue = (sets[1].Split('@'));
+            string[] ordered = sets[0].Split('@');
+            foreach (string str in ordered)
+            {
+                orderedDialogue.Enqueue(str);
+            }
+        }
     }
 }

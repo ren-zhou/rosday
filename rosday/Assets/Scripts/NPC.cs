@@ -10,8 +10,11 @@ public class NPC : Interactable
     private string npc_name;
     DialogueManager box;
 
+    private DialogueSet[] dialogueSets;
 
-    [SerializeField] private GameObject talkToMe;
+    private int setNum;
+
+    [SerializeField] private GameObject bubble;
 
     RoyController player;
 
@@ -20,7 +23,9 @@ public class NPC : Interactable
         box = FindObjectOfType<DialogueManager>();
         player = FindObjectOfType<RoyController>();
         SetName(npc_name);
-        talkToMe.SetActive(false);
+        bubble.SetActive(false);
+        setNum = 0;
+        createSets();
     }
     public override void Act()
     {
@@ -37,16 +42,28 @@ public class NPC : Interactable
 
     public override void OnEnter()
     {
-        talkToMe.SetActive(true);
+        bubble.SetActive(true);
     }
 
     public override void OnExit()
     {
-        talkToMe.SetActive(false);
+        bubble.SetActive(false);
     }
 
     private void SetText()
     {
-        box.SetDialogueFile(dialogueFile);
+        box.SetDialogueFromString(dialogueSets[setNum].nextLine());
     }
+
+    private void createSets()
+    {
+        string[] splits = { "<><><>" };
+        string[] temp = dialogueFile.text.Split(splits, System.StringSplitOptions.RemoveEmptyEntries);
+        dialogueSets = new DialogueSet[temp.Length];
+        for (int i = 0; i < dialogueSets.Length; i++)
+        {
+            dialogueSets[i] = new DialogueSet(temp[i]);
+        }
+    }
+
 }

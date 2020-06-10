@@ -23,7 +23,7 @@ public class DialogueManager : MonoBehaviour
     private bool canClick;
 
     /** Characters per physics frame. */
-    [SerializeField] private int cppf = 1;
+    [SerializeField] private int cppf = 2;
 
     Interactable currInter;
 
@@ -70,10 +70,22 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void SetDialogueFile(TextAsset textlines)
+    public void SetDialogueFromFile(TextAsset textlines)
     {
         dialogueFinished = false;
         string[] lines = textlines.text.Split('\n');
+        for (int i = 0; i < lines.Length; i++)
+        {
+            lineQ.Enqueue(lines[i]);
+        }
+        UpdateReader();
+        dialogue.Clear();
+    }
+
+    public void SetDialogueFromString(string text)
+    {
+        dialogueFinished = false;
+        string[] lines = text.Split('\n');
         for (int i = 0; i < lines.Length; i++)
         {
             lineQ.Enqueue(lines[i]);

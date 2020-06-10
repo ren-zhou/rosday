@@ -13,25 +13,34 @@ public class DialogueManager : MonoBehaviour
     /** The filer text that gives the locations, font, size, etc, of the text. */
     public Text textHolder;
 
-    /** */
+    /** The currently showing dialogue in the panel. */
     private StringBuilder dialogue;
+    /** The currently loaded line to feed into the dialogue. */
     private StringReader lineSourceSR;
 
+    /** Panel that holds the name. */
     public GameObject namebox;
+    /** The text that is filled a name. */
     public Text nameHolder;
 
+    /** Queue of lines in the loaded dialogue. */
     private Queue lineQ;
+    /** True when the current line is finished reading and a click can advance the dialogue. */
     private bool canClick;
 
     /** Characters per physics frame. */
     [SerializeField] private int cppf = 2;
 
+    /** The interactable that is currently activating the dialogue manager. */
     Interactable currInter;
 
+    /** The player. */
     private RoyController player;
 
+    /** True when the loaded dialogue has been finished. */
     private bool dialogueFinished;
 
+    /** Keeps track of if interact has been pressed. */
     private bool interactPress;
 
     private void Start()
@@ -71,6 +80,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Deprecated. Used to load dialogue from a text file.
+    /// </summary>
+    /// <param name="textlines"></param>
     public void SetDialogueFromFile(TextAsset textlines)
     {
         dialogueFinished = false;
@@ -83,6 +96,8 @@ public class DialogueManager : MonoBehaviour
         dialogue.Clear();
     }
 
+    /** Loads dialogue from a string fed to it. Sets the lineQ, updates the string reader,
+     and clears the current dialogue. */
     public void SetDialogueFromString(string text)
     {
         dialogueFinished = false;
@@ -95,12 +110,14 @@ public class DialogueManager : MonoBehaviour
         dialogue.Clear();
     }
 
+    /** Sets the currently loaded interactable. */
     public void SetInter(Interactable inter)
     {
         currInter = inter;
         nameHolder.text = inter.Name();
     }
 
+    /** Updates the string reader with the next line of dialogue. */
     private void UpdateReader()
     {
         if (lineQ.Count == 0)
@@ -110,7 +127,9 @@ public class DialogueManager : MonoBehaviour
         }
         lineSourceSR = new StringReader((string) lineQ.Dequeue());
     }
-
+    /** Takes cppf characters from the stringreader linesource, feeds them to the dialogue string
+     * builder, and figures out conditions relating to the clicking. Also updates the text holder
+     the new text.*/
     private void ReadText()
     {
         char[] buffer = new char[cppf];
@@ -127,6 +146,8 @@ public class DialogueManager : MonoBehaviour
         textHolder.text = dialogue.ToString();
     }
 
+    /** Closes the current dialogue by closing the textbox, unfreezing the player, and releasing
+     the interactable from the inAction state.*/
     private void CloseDialogue()
     {
         textbox.SetActive(false);
@@ -138,16 +159,20 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+    /** Freezes the input of the player and zeroes the velocity. */
     private void FreezePlayer()
     {
         player.LockInputs();
+        player.ZeroXVelocity();
     }
 
+    /** Unlocks player inputs. */
     private void UnfreezePlayer()
     {
         player.ReleaseInputs();
     }
 
+    /** Activates the dialogue manager's components and freezes the player.*/
     public void Activate()
     {
         textbox.SetActive(true);

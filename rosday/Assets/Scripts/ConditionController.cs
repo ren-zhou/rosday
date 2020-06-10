@@ -6,6 +6,7 @@ using UnityEngine;
  map conditions, etc. Manages "Conditions," which are each uniquely identified by a string. */
 public class ConditionController : MonoBehaviour
 {
+    /** Dictionary containing conditions and whether they are true or false. */
     Dictionary<string, bool> conditions;
 
     void Start()
@@ -13,11 +14,7 @@ public class ConditionController : MonoBehaviour
         conditions = new Dictionary<string, bool>();
     }
 
-    void Update()
-    {
-        
-    }
-
+    /** Set the conditionName to be tf. */
     public void UpdateCondition(string conditionName, bool tf)
     {
         if (conditions.ContainsKey(conditionName))
@@ -29,6 +26,7 @@ public class ConditionController : MonoBehaviour
         }
     }
 
+    /** Returns whether or not conditionName is currently true. */
     public bool GetCondition(string conditionName)
     {
         bool def;
@@ -36,6 +34,10 @@ public class ConditionController : MonoBehaviour
         return def;
     }
 
+    /// <summary>
+    /// </summary>
+    /// <param name="conditions"></param>
+    /// <returns>A list of bools being true or false corresponding to the conditions. </returns>
     public bool[] GetConditions(List<string> conditions)
     {
         bool[] results = new bool[conditions.Count];

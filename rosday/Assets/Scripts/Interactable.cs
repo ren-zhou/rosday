@@ -4,47 +4,51 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-
-    private bool active;
-
-    private string name;
+    /** Is true when the object is currently being interacted with.
+     Locks the Act method. */
+    private bool inAction;
+    /** Name of the interactable. */
+    private string interactableName;
     public virtual void Act()
     {
-        //TextboxManager box = FindObjectOfType<TextboxManager>();
-        //box.Activate();
-        //box.FreezePlayer();
     }
 
     public void Deactivate()
     {
-        active = false;
+        inAction = false;
     }
 
     public bool isActive()
     {
-        return active;
+        return inAction;
     }
 
     public void Activate()
     {
-        active = true;
+        inAction = true;
     }
 
     public void SetName(string name)
     {
-        this.name = name;
+        this.interactableName = name;
     }
 
     public string Name()
     {
-        return name;
+        return interactableName;
     }
 
+    /// <summary>
+    /// Called when the player enters the collider of the interactable.
+    /// </summary>
     public virtual void OnEnter()
     {
 
     }
     
+    /// <summary>
+    /// Called when the player exits the collider of the interactable.
+    /// </summary>
     public virtual void OnExit()
     {
 

@@ -23,6 +23,7 @@ public class RoyController : MonoBehaviour
     public float moveSpeed = 7.0f;
     /** The current max move speed of the player. */
     public float currMoveSpeed;
+    public float accelerationBuff;
     public float groundAcceleration;
     public float groundDeceleration;
 
@@ -50,6 +51,7 @@ public class RoyController : MonoBehaviour
     public int dashLength;
     public int dashCooldown;
     private Dictionary<string, bool> abilityDic;
+    private HashSet<string> abilitySet;
 
     /* Keep track of states during gameplay. */
     private bool isFacingRight = true;
@@ -59,7 +61,7 @@ public class RoyController : MonoBehaviour
 
     private bool isOnWall;
     private bool isNextToWall;
-    private bool isByWall;
+    private bool isBlockedByWall;
 
     private bool canGroundJump;
     private bool canAirJump;
@@ -89,6 +91,8 @@ public class RoyController : MonoBehaviour
         bcSize = bc.size;
         bcOffset = bc.offset;
         abilityDic = new Dictionary<string, bool>();
+        accelerationBuff = 1;
+        abilitySet = new HashSet<string>();
     }
 
     void Update()
@@ -108,7 +112,9 @@ public class RoyController : MonoBehaviour
         ClampVelocityY();
         
     }
-
+    /// <summary>
+    /// Handles all inputs. Stores the arrow keys as a movement input and directly calls methods for the other inputs.
+    /// </summary>
     private void CheckInput()
     {
         if (dashTimer > 0 || !canInput)
@@ -141,6 +147,11 @@ public class RoyController : MonoBehaviour
             Uncrouch();
         }
     }
+
+    /// <summary>
+    /// Checks if the player is grounded, is on a wall (near wall and facing it), next to a wall (near wall but not necessarily facing),
+    /// which direction the last wall the player was next to was, and if the player is blocked by a wall (used for stopping the player's dash).
+    /// </summary>
     private void CheckSurroundings()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM) || Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, slideLM);
@@ -150,14 +161,17 @@ public class RoyController : MonoBehaviour
             lastWallDirection = facingDirection;
         }
         isNextToWall = Physics2D.Raycast(WallCheckMidA.position, -transform.right, wallCheckDistance + 0.05f, groundLM) || isOnWall;
-        isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, groundLM) ||
+        isBlockedByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, groundLM) ||
             Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, groundLM) || isOnWall;
 
-        isByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, slideLM) ||
-            Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, slideLM) || isByWall ||
+        isBlockedByWall = Physics2D.Raycast(WallCheckTop.position, transform.right, wallCheckDistance, slideLM) ||
+            Physics2D.Raycast(WallCheckBot.position, transform.right, wallCheckDistance, slideLM) || isBlockedByWall ||
             Physics2D.Raycast(WallCheckMidA.position, transform.right, wallCheckDistance, slideLM);
     }
 
+    /// <summary>
+    /// Checks the dash cooldown, and whether the conditions to jump and dash are met.
+    /// </summary>
     private void CheckMoveConditions()
     {
         tillNextDash = tillNextDash > 0 ? tillNextDash - 1 : 0;
@@ -166,6 +180,9 @@ public class RoyController : MonoBehaviour
         canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0 && !(dashTimer > 0) && hasAbility("dash");
     }
 
+    /// <summary>
+    /// Checks animation conditions before they are sent to the controller.
+    /// </summary>
     private void CheckAnimConditions()
     {
         if ((isFacingRight && movementInputDirection < 0) ||
@@ -176,11 +193,16 @@ public class RoyController : MonoBehaviour
         isWalking = Mathf.Abs(rb.velocity.x) > 0.1f;
     }
 
+    /// <summary>
+    /// Checks if the player meets the conditions for wallsliding.
+    /// </summary>
     private void CheckIfWallSliding()
     {
         isWallSliding = isOnWall && !isGrounded && rb.velocity.y < 0 && (movementInputDirection == facingDirection || isWallSliding);
     }
-
+    /// <summary>
+    /// Updates the animation controller.
+    /// </summary>
     private void UpdateAnimations()
     {
         anim.SetBool("isWalking", isWalking);
@@ -191,6 +213,10 @@ public class RoyController : MonoBehaviour
         anim.SetBool("isCrouching", isCrouching);
     }
     
+    /// <summary>
+    /// Applies movement unless inputs are somehow locked. Deals with horizontal movement (aerial and grounded), including
+    /// acceleration and decceleration, applies wallsliding, caps fall speed, and uncrouches if the player is not grounded.
+    /// </summary>
     private void ApplyMovement()
     {
         if (dashTimer > 0 || !canInput)
@@ -201,13 +227,13 @@ public class RoyController : MonoBehaviour
         {
             if (movementInputDirection != 0)
             {
-                    rb.AddForce(new Vector2(groundAcceleration * movementInputDirection, 0));
+                    rb.AddForce(new Vector2(groundAcceleration * accelerationBuff * movementInputDirection, 0));
                     ClampVelocityX();
             }
             else if (Mathf.Abs(rb.velocity.x) > 0)
             {
                 float dir = Mathf.Sign(rb.velocity.x);
-                rb.velocity = new Vector2(rb.velocity.x - groundDeceleration*dir, rb.velocity.y);
+                rb.velocity = new Vector2(rb.velocity.x - groundDeceleration * dir, rb.velocity.y);
                 if (Mathf.Sign(rb.velocity.x) != dir && Mathf.Sign(rb.velocity.x) != 0)
                 {
                     rb.velocity = new Vector2(0, rb.velocity.y);
@@ -216,7 +242,7 @@ public class RoyController : MonoBehaviour
         }
         else if (!isGrounded && !isWallSliding && movementInputDirection != 0)
         {
-            rb.AddForce(new Vector2(airAcceleration * movementInputDirection, 0));
+            rb.AddForce(new Vector2(airAcceleration * accelerationBuff * movementInputDirection, 0));
             ClampVelocityX();
         }
         else if (!isGrounded && !isWallSliding && movementInputDirection == 0 && Mathf.Abs(rb.velocity.x) > 0)
@@ -238,11 +264,9 @@ public class RoyController : MonoBehaviour
         }
     }
 
-    private bool BelowMaxSpeed()
-    {
-        return rb.velocity.x < currMoveSpeed;
-    }
-
+    /// <summary>
+    /// Clamps the x velocity to be within the current move speed cap.
+    /// </summary>
     private void ClampVelocityX()
     {
         if (Mathf.Abs(rb.velocity.x) > currMoveSpeed)
@@ -251,6 +275,9 @@ public class RoyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Clamps downwards y velocity only. Capped at the max fall speed.
+    /// </summary>
     private void ClampVelocityY()
     {
         if (rb.velocity.y < -maxFallSpeed)
@@ -259,14 +286,19 @@ public class RoyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Flips the sprite and also flips conditions associated with facing direction.
+    /// </summary>
     private void Flip()
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
-        //transform.localScale = new Vector3(-1*facingDirection, 1, 1);
         facingDirection *= -1;
     }
 
+    /// <summary>
+    /// Master jump method. Uses info about surroundings to determine which jump is performed.
+    /// </summary>
     private void Jump()
     {
         jumpedLastFrame = true;
@@ -312,21 +344,30 @@ public class RoyController : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// Begins the dash by setting the timer to the length and setting the player's velocity to the dash velocity.
+    /// Uses up the dash.
+    /// </summary>
     private void DashStart()
     { 
         if (canDash)
         {
             dashTimer = dashLength;
             float dashDir = movementInputDirection == 0 ? facingDirection : movementInputDirection;
-            Vector2 yeet = new Vector2(dashSpeed * dashDir, 0);
             rb.velocity = new Vector2(dashSpeed * dashDir, 0);
-            //rb.position = new Vector2(rb.position.x, lastY);
             canDash = false;
         }
     }
+
+    /// <summary>
+    /// Continues and finishes the dash. Is called every frame of the dash (after the first) and maintains the forwards
+    /// velocity as well as providing enough upwards velocity to cancel out the effect of gravity. On the last physics frame
+    /// of the dash, starts the dash cooldown. On the last frame, the player continues moving at their maximum move speed (not dash).
+    /// </summary>
     private void DashCont()
     {
-        if (isByWall)
+        if (isBlockedByWall)
         {
             dashTimer = 0;
             return;
@@ -334,18 +375,20 @@ public class RoyController : MonoBehaviour
         if (dashTimer > 1)
         {
             rb.velocity = new Vector2(dashSpeed * Mathf.Sign(rb.velocity.x), 9.81f * Time.fixedDeltaTime * 3);
-            //rb.position = new Vector2(rb.position.x, lastY);
             dashTimer -= 1;
         }
-        else if (dashTimer == 1)
+        else if (dashTimer ==  1)
         {
             rb.velocity = new Vector2(moveSpeed * Mathf.Sign(rb.velocity.x), 0);
-            //rb.position = new Vector2(rb.position.x, lastY);
             dashTimer -= 1;
             tillNextDash = dashCooldown;
         }
     }
 
+    /// <summary>
+    /// Begins the crouch by setting the collider to be smaller and the offset to be lower. Also
+    /// slows down the move speed to the crouch speed.
+    /// </summary>
     private void Crouch()
     {
         if (isGrounded)
@@ -357,6 +400,10 @@ public class RoyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Undoes what crouch does. Sets the animation condition, resets the box collider, ups the move
+    /// speed to normal.
+    /// </summary>
     private void Uncrouch()
     {
         if (isCrouching)
@@ -367,39 +414,39 @@ public class RoyController : MonoBehaviour
             currMoveSpeed = moveSpeed;
         }
     }
-    //public void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    Interactable interactable = collision.GetComponent<Interactable>();
-    //    if (interactable != null && Input.GetButtonUp("Interact"))
-    //    {
-    //        interactable.Act();
-    //    }
-    //}
 
+    /// <summary>
+    /// Locks player out of inputs by making it so that check inputs does not run.
+    /// </summary>
     public void LockInputs()
     {
         canInput = false;
-        rb.velocity = new Vector2(0, rb.velocity.y);
     }
-
     public void ReleaseInputs()
     {
         canInput = true;
     }
+    public void ZeroXVelocity()
+    {
+        rb.velocity = new Vector2(0, rb.velocity.y);
+    }
 
+    /// <summary>
+    /// Marks an ability as owned by adding it to a set of owned abilities.
+    /// </summary>
+    /// <param name="ability"></param>
     public void UnlockAbility(string ability)
     {
-        if (!abilityDic.ContainsKey(ability))
-        {
-            abilityDic.Add(ability, true);
-        }
+        abilitySet.Add(ability);
     }
 
+    /// <summary>
+    /// Returns whether the ability is owned.
+    /// </summary>
+    /// <param name="ability"></param>
+    /// <returns></returns>
     private bool hasAbility(string ability)
     {
-        bool ret = false;
-        abilityDic.TryGetValue("dash", out ret);
-        return ret;
+        return abilitySet.Contains(ability);
     }
-
 }

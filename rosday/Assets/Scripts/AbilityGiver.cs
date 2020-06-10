@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** Extends the NPC class but also unlocks ability ABILITY when acting.*/
 public class AbilityGiver : NPC
 {
     public string ability;

@@ -10,7 +10,7 @@ Random2@
 Random3@
 Random4@
 Random5
-<><><><>
+<><><>
 Ordered Dialogue 2.1, speech bubble 1.
 Ordered Dialogue 2.1, speech bubble 2.@
 OD2.2, sb1

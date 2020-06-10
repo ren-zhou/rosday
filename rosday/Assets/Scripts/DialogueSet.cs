@@ -15,6 +15,10 @@ public class DialogueSet
 
     private int lastRandom;
 
+    /// <summary>
+    /// Gives the next line of dialogue from this set.
+    /// </summary>
+    /// <returns></returns>
     public string nextLine()
     {
         string next;
@@ -35,6 +39,7 @@ public class DialogueSet
         next = next.Trim('\r', '\n');
         return next;
     }
+
 
     public DialogueSet(string text)
     {

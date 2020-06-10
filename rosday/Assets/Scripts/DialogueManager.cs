@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
     /** The filer text that gives the locations, font, size, etc, of the text. */
     public Text textHolder;
 
+    /** */
     private StringBuilder dialogue;
     private StringReader lineSourceSR;
 

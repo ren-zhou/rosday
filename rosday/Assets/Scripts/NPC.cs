@@ -12,11 +12,17 @@ public class NPC : Interactable
 
     private DialogueSet[] dialogueSets;
 
+    public List<string> conditions;
+
+    public List<int> setNums;
+
     private int setNum;
 
     [SerializeField] private GameObject bubble;
 
     RoyController player;
+
+    ConditionController controller;
 
     private void Start()
     {
@@ -26,15 +32,18 @@ public class NPC : Interactable
         bubble.SetActive(false);
         setNum = 0;
         createSets();
+        //conditions = new List<string>();
+        //setNums = new List<int>();
+        controller = FindObjectOfType<ConditionController>();
     }
     public override void Act()
     {
         if (!isActive())
         {
+            DetermineSetNum();
             SetText();
             box.SetInter(this);
             box.Activate();
-            player.UnlockAbility("dash");
             Activate();
         }
 
@@ -53,6 +62,18 @@ public class NPC : Interactable
     private void SetText()
     {
         box.SetDialogueFromString(dialogueSets[setNum].nextLine());
+    }
+
+    private void DetermineSetNum()
+    {
+        int index = controller.GetFirstTrueIndex(conditions);
+        if (index >= 0)
+        {
+            setNum = setNums[index];
+        } else
+        {
+            setNum = 0;
+        }
     }
 
     private void createSets()

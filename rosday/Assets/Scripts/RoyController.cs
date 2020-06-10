@@ -15,12 +15,13 @@ public class RoyController : MonoBehaviour
     private BoxCollider2D bc;
     private Vector2 bcSize;
     private Vector2 bcOffset;
-    private float bcHeight;
 
     /* Parameters to fiddle with: */
 
     /* Grounded Movement: */
-    public float moveSpeed = 5.0f;
+    /** The default max move speed of the player. */
+    public float moveSpeed = 7.0f;
+    /** The current max move speed of the player. */
     public float currMoveSpeed;
     public float groundAcceleration;
     public float groundDeceleration;

@@ -23988,9 +23988,9 @@ MonoBehaviour:
   WallCheckBot: {fileID: 781613087}
   moveSpeed: 7
   currMoveSpeed: 0
-  groundAcceleration: 30
+  groundAcceleration: 40
   groundDeceleration: 1
-  airAcceleration: 20
+  airAcceleration: 35
   airDeceleration: 0.4
   maxFallSpeed: 20
   jumpForce: 12
@@ -24173,6 +24173,7 @@ GameObject:
   - component: {fileID: 552459426}
   - component: {fileID: 552459425}
   - component: {fileID: 552459424}
+  - component: {fileID: 552459430}
   m_Layer: 0
   m_Name: Yuzu Guard
   m_TagString: Interactable
@@ -24189,12 +24190,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 552459423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 701084a0be47b45409c961d21db029c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 892bf5251ad0efa49b7c4b076bc16b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueFile: {fileID: 4900000, guid: 93fa243bd30283347ad979b257544809, type: 3}
   npc_name: Yuzu Guard
+  conditions:
+  - dash
   bubble: {fileID: 496011588}
+  ability: dash
 --- !u!50 &552459425
 Rigidbody2D:
   serializedVersion: 4
@@ -24317,6 +24321,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &552459430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552459423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f06529ceb2f4f448999641066130c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  condition: dash
+  isTrue: 1
 --- !u!1 &586801173
 GameObject:
   m_ObjectHideFlags: 0
@@ -25039,6 +25057,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &736879301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 736879303}
+  - component: {fileID: 736879302}
+  m_Layer: 0
+  m_Name: ConditionController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &736879302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736879301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7c724cc0cdd7f44bb1b02c11597bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &736879303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736879301}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.8732588, y: 1.7602053, z: -20.690454}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743047263
 GameObject:
   m_ObjectHideFlags: 0
@@ -25137,7 +25198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 743047263}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: -6.95, z: 0}
+  m_LocalPosition: {x: -0.13, y: -8.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1677797069}
@@ -25174,6 +25235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueFile: {fileID: 4900000, guid: 4ccee5a0904316f45ba99f0be02bfcfb, type: 3}
   npc_name: Mayor Lemon
+  conditions: []
   bubble: {fileID: 1677797067}
 --- !u!1 &761764655
 GameObject:

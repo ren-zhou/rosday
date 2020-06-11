@@ -177,7 +177,7 @@ public class RoyController : MonoBehaviour
         tillNextDash = tillNextDash > 0 ? tillNextDash - 1 : 0;
         canGroundJump = isGrounded;
         canAirJump = isGrounded || canAirJump || isOnWall;
-        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0 && !(dashTimer > 0) && hasAbility("dash");
+        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0   && hasAbility("dash");
     }
 
     /// <summary>
@@ -357,6 +357,7 @@ public class RoyController : MonoBehaviour
             float dashDir = movementInputDirection == 0 ? facingDirection : movementInputDirection;
             rb.velocity = new Vector2(dashSpeed * dashDir, 0);
             canDash = false;
+      
         }
     }
 

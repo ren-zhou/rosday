@@ -10,6 +10,8 @@ public class NPC : Interactable
     private string npc_name;
     DialogueManager box;
 
+    //public Transform talkToSpot;
+
     /** Array of dialogue sets. */
     private DialogueSet[] dialogueSets;
 

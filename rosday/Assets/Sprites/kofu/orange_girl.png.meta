@@ -1,28 +1,7 @@
 fileFormatVersion: 2
-guid: d0f98be0054b0e748ab64fe4d8d03fe6
+guid: 80ce2abd32d9e384c9ad427d03ffd981
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -9076981302091071107
-    second: orange_tree_0
-  - first:
-      213: -1374468552780289326
-    second: orange_tree_1
-  - first:
-      213: -2779451383866763381
-    second: orange_tree_2
-  - first:
-      213: 7302109784144240451
-    second: orange_tree_3
-  - first:
-      213: -5579766612605002055
-    second: orange_tree_4
-  - first:
-      213: 291757073884835636
-    second: orange_tree_2
-  - first:
-      213: 1011263237993782277
-    second: orange_tree_3
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -61,7 +40,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -117,91 +96,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: orange_tree_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 16
-        width: 95
-        height: 81
-      alignment: 9
-      pivot: {x: 0.49019608, y: 0.09090909}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d71cffff895180280800000000000000
-      internalID: -9076981302091071107
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orange_tree_1
-      rect:
-        serializedVersion: 2
-        x: 5
-        y: 11
-        width: 6
-        height: 2
-      alignment: 9
-      pivot: {x: 0.5, y: 2}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2dae59c2228ecece0800000000000000
-      internalID: -1374468552780289326
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orange_tree_2
-      rect:
-        serializedVersion: 2
-        x: 10
-        y: 4
-        width: 4
-        height: 2
-      alignment: 9
-      pivot: {x: 0.5, y: 2}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 43fec9d43878c0400800000000000000
-      internalID: 291757073884835636
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orange_tree_3
-      rect:
-        serializedVersion: 2
-        x: 24
-        y: 3
-        width: 2
-        height: 2
-      alignment: 9
-      pivot: {x: 0.5, y: 2}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 50cd70b9e8ab80e00800000000000000
-      internalID: 1011263237993782277
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -212,7 +107,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: Tile
+  spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 

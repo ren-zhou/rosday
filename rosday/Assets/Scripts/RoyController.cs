@@ -78,6 +78,8 @@ public class RoyController : MonoBehaviour
     public float crouchSpeed;
     private bool canInput = true;
 
+    private Vector3 respawnPos;
+
     /* Inputs: */
     private float movementInputDirection;
 
@@ -93,7 +95,9 @@ public class RoyController : MonoBehaviour
         abilityDic = new Dictionary<string, bool>();
         accelerationBuff = 1;
         abilitySet = new HashSet<string>();
+        respawnPos = transform.position;
     }
+
 
     void Update()
     {
@@ -178,6 +182,7 @@ public class RoyController : MonoBehaviour
         canGroundJump = isGrounded;
         canAirJump = isGrounded || canAirJump || isOnWall;
         canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0   && hasAbility("dash");
+        //FIXME separate the timer from canDash
     }
 
     /// <summary>
@@ -416,6 +421,7 @@ public class RoyController : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Locks player out of inputs by making it so that check inputs does not run.
     /// </summary>
@@ -449,5 +455,11 @@ public class RoyController : MonoBehaviour
     private bool hasAbility(string ability)
     {
         return abilitySet.Contains(ability);
+    }
+
+
+    public void Die()
+    {
+        rb.transform.position = respawnPos;
     }
 }

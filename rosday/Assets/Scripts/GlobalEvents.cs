@@ -50,9 +50,9 @@ public class GlobalEvents : MonoBehaviour
 
     /** Returns the index of the first true condition. If none of the conditions are
      true, then it returns -1. */
-    public int GetFirstTrueIndex(List<string> conditions)
+    public int GetFirstTrueIndex(string[] conditions)
     {
-        for (int i = 0; i < conditions.Count; i++)
+        for (int i = 0; i < conditions.Length; i++)
         {
             if (GetCondition(conditions[i]))
             {

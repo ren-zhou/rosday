@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     /** Is true when the object is currently being interacted with.
      Locks the Act method. */
@@ -13,17 +13,17 @@ public class Interactable : MonoBehaviour
     {
     }
 
-    public void Deactivate()
+    public void UnfreezeClicks()
     {
         inAction = false;
     }
 
-    public bool isActive()
+    public bool IsActive()
     {
         return inAction;
     }
 
-    public void Activate()
+    public void FreezeClicks()
     {
         inAction = true;
     }
@@ -36,21 +36,5 @@ public class Interactable : MonoBehaviour
     public string Name()
     {
         return interactableName;
-    }
-
-    /// <summary>
-    /// Called when the player enters the collider of the interactable.
-    /// </summary>
-    public virtual void OnEnter()
-    {
-
-    }
-    
-    /// <summary>
-    /// Called when the player exits the collider of the interactable.
-    /// </summary>
-    public virtual void OnExit()
-    {
-
     }
 }

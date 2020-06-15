@@ -80,11 +80,19 @@ public class TextboxPresenter : MonoBehaviour
         }
     }
 
+    public void SetUp(Interactable inter, string textlines)
+    {
+        SetDialogueFromString(textlines);
+        SetInter(inter);
+        Activate();
+    }
+
+
     /// <summary>
     /// Deprecated. Used to load dialogue from a text file.
     /// </summary>
     /// <param name="textlines"></param>
-    public void SetDialogueFromFile(TextAsset textlines)
+    private void SetDialogueFromFile(TextAsset textlines)
     {
         dialogueFinished = false;
         string[] lines = textlines.text.Split('\n');
@@ -98,7 +106,7 @@ public class TextboxPresenter : MonoBehaviour
 
     /** Loads dialogue from a string fed to it. Sets the lineQ, updates the string reader,
      and clears the current dialogue. */
-    public void SetDialogueFromString(string text)
+    private void SetDialogueFromString(string text)
     {
         dialogueFinished = false;
         string[] lines = text.Split('\n');
@@ -111,7 +119,7 @@ public class TextboxPresenter : MonoBehaviour
     }
 
     /** Sets the currently loaded interactable. */
-    public void SetInter(Interactable inter)
+    private void SetInter(Interactable inter)
     {
         currInter = inter;
         nameHolder.text = inter.Name();
@@ -127,6 +135,7 @@ public class TextboxPresenter : MonoBehaviour
         }
         lineSourceSR = new StringReader((string) lineQ.Dequeue());
     }
+
     /** Takes cppf characters from the stringreader linesource, feeds them to the dialogue string
      * builder, and figures out conditions relating to the clicking. Also updates the text holder
      the new text.*/
@@ -150,11 +159,12 @@ public class TextboxPresenter : MonoBehaviour
      the interactable from the inAction state.*/
     private void CloseDialogue()
     {
+        dialogue.Clear();
         textbox.SetActive(false);
         namebox.SetActive(false);
         UnfreezePlayer();
         canClick = false;
-        currInter.Deactivate();
+        currInter.UnfreezeClicks();
         currInter = null;
 
     }

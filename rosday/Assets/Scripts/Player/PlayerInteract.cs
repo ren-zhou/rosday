@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private GameObject currInter;
+    private Interactable currInter;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Interactable"))
         {
-            Debug.Log(other.name);
-            currInter = other.gameObject;
-            currInter.SendMessage("OnEnter");
+            currInter = other.GetComponent<Interactable>();
         }
     }
 
@@ -20,7 +18,6 @@ public class PlayerInteract : MonoBehaviour
     {
         if (other.CompareTag("Interactable") && other.gameObject == currInter)
         {
-            currInter.SendMessage("OnExit");
             currInter = null;
         }
     }
@@ -29,7 +26,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if(Input.GetButtonDown("Interact") && currInter)
         {
-            currInter.SendMessage("Act");
+            currInter.Act();
         }
     }
 

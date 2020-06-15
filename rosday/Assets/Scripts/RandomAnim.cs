@@ -25,6 +25,5 @@ public class RandomAnim : MonoBehaviour
             val = true;
         }
         anim.SetBool("start", val);
-        Debug.Log(val);
     }
 }

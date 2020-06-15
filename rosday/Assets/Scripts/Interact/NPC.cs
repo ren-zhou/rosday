@@ -8,7 +8,7 @@ public class NPC : Interactable
     private TextAsset dialogueFile;
     [SerializeField]
     private string npc_name;
-    DialogueManager box;
+    TextboxPresenter box;
 
     //public Transform talkToSpot;
 
@@ -27,19 +27,16 @@ public class NPC : Interactable
 
     [SerializeField] private GameObject bubble;
 
-    RoyController player;
-
-    ConditionController controller;
+    GlobalEvents controller;
 
     private void Start()
     {
-        box = FindObjectOfType<DialogueManager>();
-        player = FindObjectOfType<RoyController>();
+        box = FindObjectOfType<TextboxPresenter>();
         SetName(npc_name);
         bubble.SetActive(false);
         setNum = 0;
         createSets();
-        controller = FindObjectOfType<ConditionController>();
+        controller = FindObjectOfType<GlobalEvents>();
     }
 
     public override void Act()

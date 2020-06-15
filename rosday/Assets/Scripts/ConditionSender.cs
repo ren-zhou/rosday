@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ConditionSender : MonoBehaviour
 {
-    private ConditionController controller;
+    private GlobalEvents controller;
 
     public string condition;
 
     public bool isTrue;
     void Start()
     {
-        controller = FindObjectOfType<ConditionController>();
+        controller = FindObjectOfType<GlobalEvents>();
     }
 
     public void Act()

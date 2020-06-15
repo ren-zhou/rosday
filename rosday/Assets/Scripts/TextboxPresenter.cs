@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 using System.Text;
 
-public class DialogueManager : MonoBehaviour
+public class TextboxPresenter : MonoBehaviour
 {
     /** Panel that has image of dialogue box. */
     public GameObject textbox;

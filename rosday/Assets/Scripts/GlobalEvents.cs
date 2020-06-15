@@ -4,7 +4,7 @@ using UnityEngine;
 
 /** Controls various states of the game, including NPC dialogue that is dependent on player actions/player state,
  map conditions, etc. Manages "Conditions," which are each uniquely identified by a string. */
-public class ConditionController : MonoBehaviour
+public class GlobalEvents : MonoBehaviour
 {
     /** Dictionary containing conditions and whether they are true or false. */
     Dictionary<string, bool> conditions;

@@ -50,7 +50,6 @@ public class RoyController : MonoBehaviour
     public float dashSpeed;
     public int dashLength;
     public int dashCooldown;
-    private Dictionary<string, bool> abilityDic;
     private HashSet<string> abilitySet;
 
     /* Keep track of states during gameplay. */
@@ -74,6 +73,8 @@ public class RoyController : MonoBehaviour
     private int dashTimer = 0;
     private int tillNextDash = 0;
 
+    public Stall stall;
+
     private bool isCrouching;
     public float crouchSpeed;
     private bool canInput = true;
@@ -92,10 +93,10 @@ public class RoyController : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         bcSize = bc.size;
         bcOffset = bc.offset;
-        abilityDic = new Dictionary<string, bool>();
         accelerationBuff = 1;
         abilitySet = new HashSet<string>();
         respawnPos = transform.position;
+        UnlockAbility("stall");
     }
 
 
@@ -121,11 +122,19 @@ public class RoyController : MonoBehaviour
     /// </summary>
     private void CheckInput()
     {
-        if (dashTimer > 0 || !canInput)
+        if (!canInput)
         {
             return;
         }
-      
+        if (Input.GetButtonDown("Stall"))
+        {
+            stall.StartStall();
+            dashTimer = 0;
+        }
+        if (dashTimer > 0)
+        {
+            return;
+        }
         movementInputDirection = Input.GetAxisRaw("Horizontal");
         //if (Input.GetButtonDown("Jump") || triedToJump)
         if (Input.GetButtonDown("Jump"))
@@ -181,8 +190,7 @@ public class RoyController : MonoBehaviour
         tillNextDash = tillNextDash > 0 ? tillNextDash - 1 : 0;
         canGroundJump = isGrounded;
         canAirJump = isGrounded || canAirJump || isOnWall;
-        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0   && hasAbility("dash");
-        //FIXME separate the timer from canDash
+        canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0   && HasAbility("dash");
     }
 
     /// <summary>
@@ -350,6 +358,11 @@ public class RoyController : MonoBehaviour
 
     }
 
+    public bool AnyRefreshConditions()
+    {
+        return isGrounded || isOnWall;
+    }
+
     /// <summary>
     /// Begins the dash by setting the timer to the length and setting the player's velocity to the dash velocity.
     /// Uses up the dash.
@@ -406,6 +419,8 @@ public class RoyController : MonoBehaviour
         }
     }
 
+
+
     /// <summary>
     /// Undoes what crouch does. Sets the animation condition, resets the box collider, ups the move
     /// speed to normal.
@@ -447,12 +462,15 @@ public class RoyController : MonoBehaviour
         abilitySet.Add(ability);
     }
 
+
+
+
     /// <summary>
     /// Returns whether the ability is owned.
     /// </summary>
     /// <param name="ability"></param>
     /// <returns></returns>
-    private bool hasAbility(string ability)
+    public bool HasAbility(string ability)
     {
         return abilitySet.Contains(ability);
     }

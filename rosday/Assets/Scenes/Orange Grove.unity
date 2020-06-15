@@ -26452,7 +26452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &552459424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26467,10 +26467,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueFile: {fileID: 4900000, guid: 93fa243bd30283347ad979b257544809, type: 3}
   npc_name: Yuzu Guard
-  conditions:
-  - dash
-  setNums: 01000000
-  bubble: {fileID: 496011588}
   ability: dash
 --- !u!50 &552459425
 Rigidbody2D:
@@ -26764,7 +26760,7 @@ GameObject:
   - component: {fileID: 705980532}
   - component: {fileID: 705980531}
   m_Layer: 0
-  m_Name: DialogueManager
+  m_Name: TextboxPresenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26799,7 +26795,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &707254175
 GameObject:
@@ -26940,7 +26936,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743047263
 GameObject:
@@ -26961,7 +26957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &743047264
 Animator:
   serializedVersion: 3
@@ -27045,7 +27041,7 @@ Transform:
   m_Children:
   - {fileID: 1677797069}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &743047267
 CapsuleCollider2D:
@@ -27077,9 +27073,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueFile: {fileID: 4900000, guid: 4ccee5a0904316f45ba99f0be02bfcfb, type: 3}
   npc_name: Mayor Lemon
-  conditions: []
-  setNums: 
-  bubble: {fileID: 1677797067}
 --- !u!1 &761764655
 GameObject:
   m_ObjectHideFlags: 0
@@ -27461,7 +27454,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915595844
 GameObject:
@@ -82518,7 +82511,7 @@ RectTransform:
   - {fileID: 832307260}
   - {fileID: 761764656}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -82731,6 +82724,7 @@ GameObject:
   - component: {fileID: 1326327543}
   - component: {fileID: 1326327542}
   - component: {fileID: 1326327545}
+  - component: {fileID: 1326327546}
   m_Layer: 0
   m_Name: orange_girl
   m_TagString: Interactable
@@ -82752,10 +82746,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueFile: {fileID: 4900000, guid: 78c16edc3b123ed468ac5dc66fa3893b, type: 3}
   npc_name: Orange Girl
-  conditions:
-  - dash
-  setNums: 01000000
-  bubble: {fileID: 915595844}
 --- !u!212 &1326327543
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -82814,12 +82804,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326327541}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: -7.375, z: 0}
+  m_LocalPosition: {x: -5.1, y: -6.17, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 915595846}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1326327545
 BoxCollider2D:
@@ -82847,6 +82837,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.3496246, y: 1.3125}
   m_EdgeRadius: 0
+--- !u!114 &1326327546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326327541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae78f9aad456264292b2ed15b7f79f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conditions:
+  - dash
+  setNums: 01000000
+  bubble: {fileID: 915595844}
 --- !u!1 &1510764006
 GameObject:
   m_ObjectHideFlags: 0
@@ -82948,7 +82954,7 @@ Transform:
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1510764010
 MonoBehaviour:
@@ -84858,55 +84864,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1226191804}
---- !u!1 &2021030558
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2021030560}
-  - component: {fileID: 2021030559}
-  m_Layer: 0
-  m_Name: TextboxManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &2021030559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021030558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43aa6a3ae2254c44ea054cf499ded6f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textbox: {fileID: 832307259}
-  text: {fileID: 480625195}
-  textfile: {fileID: 4900000, guid: c1c0150a148a9fb438cadd79715aad0e, type: 3}
-  currentLine: 0
-  endAtLine: 0
-  player: {fileID: 535260559}
---- !u!4 &2021030560
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021030558}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1269.8502, y: 458.6456, z: -2785.2664}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2068350534
 GameObject:
   m_ObjectHideFlags: 0
@@ -86069,5 +86026,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -8,7 +8,6 @@ public class Stall : MonoBehaviour
     public int stallTime;
     private int stallTimer;
     private int tillNextStall;
-    private bool canStall;
     private int totalStalls = 3;
     private int stallsLeft;
     private Rigidbody2D rb;
@@ -16,7 +15,6 @@ public class Stall : MonoBehaviour
     public Vector2 bounceVector;
     public LayerMask spikeLM;
     public float bubbleRadius;
-
     private void Start()
     {
         rb = transform.parent.gameObject.GetComponent<Rigidbody2D>();
@@ -37,7 +35,7 @@ public class Stall : MonoBehaviour
         {
             StallCont();
         }
-        if((rc.AnyRefreshConditions() || canStall) && tillNextStall == 0 && rc.HasAbility("stall"))
+        if((rc.AnyRefreshConditions()) && rc.HasAbility("stall"))
         {
             stallsLeft = totalStalls;
         }
@@ -46,24 +44,23 @@ public class Stall : MonoBehaviour
 
     public void StartStall()
     {
-        if (stallsLeft > 0)
+        if (stallsLeft > 0 && tillNextStall == 0)
         {
+            rc.EndDash();
             stallTimer = stallTime;
-            canStall = false;
             stallsLeft = stallsLeft > 0 ? stallsLeft - 1 : 0;
             rc.LockInputs();
+            StallCont();
         }
-        StallCont();
     }
 
     private void StallCont()
     {
-        if (Physics2D.OverlapCircle(rb.position, bubbleRadius, spikeLM))
+        if (Physics2D.OverlapCircle(transform.position, bubbleRadius, spikeLM))
         {
             Bounce();
+            return;
         }
-
-
         if (stallTimer > 0)
         {
             rb.velocity = new Vector2(0, 9.81f * Time.fixedDeltaTime * 3);
@@ -78,7 +75,9 @@ public class Stall : MonoBehaviour
     private void Bounce()
     {
         EndStall();
-        rb.velocity = bounceVector;
+        rb.velocity = new Vector2(rb.velocity.x, bounceVector.y);
+        rc.RefreshMovement();
+        stallsLeft++;
 
     }
 
@@ -87,5 +86,11 @@ public class Stall : MonoBehaviour
         stallTimer = 0;
         tillNextStall = 1;
         rc.ReleaseInputs();
+    }
+
+    private void OnDrawGizmos()
+    {
+        UnityEditor.Handles.color = Color.red;
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, bubbleRadius);
     }
 }

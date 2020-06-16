@@ -107,11 +107,11 @@ public class RoyController : MonoBehaviour
         UpdateAnimations();
     }
 
-    private void OnDrawGizmos()
-    {
-        UnityEditor.Handles.color = Color.yellow;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, 1f);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    UnityEditor.Handles.color = Color.yellow;
+    //    UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, 1f);
+    //}
 
     private void FixedUpdate()
     {
@@ -230,6 +230,15 @@ public class RoyController : MonoBehaviour
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isDashing", dashTimer > 0);
         anim.SetBool("isCrouching", isCrouching);
+    }
+
+    /// <summary>
+    /// Refreshes abilities that are restored by being grounded.
+    /// </summary>
+    public void RefreshMovement()
+    {
+        canDash = true;
+        canAirJump = true;
     }
     
     /// <summary>
@@ -394,7 +403,7 @@ public class RoyController : MonoBehaviour
     {
         if (isBlockedByWall)
         {
-            dashTimer = 0;
+            EndDash();
             return;
         }
         if (dashTimer > 1)
@@ -408,6 +417,11 @@ public class RoyController : MonoBehaviour
             dashTimer -= 1;
             tillNextDash = dashCooldown;
         }
+    }
+
+    public void EndDash()
+    {
+        dashTimer = 0;
     }
 
     /// <summary>

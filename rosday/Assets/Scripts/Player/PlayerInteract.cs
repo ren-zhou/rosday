@@ -16,9 +16,12 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Interactable") && other.gameObject == currInter)
+        //Debug.Log(other.CompareTag("Interactable"));
+        //Debug.Log(other.gameObject.Equals(currInter));
+        if (other.CompareTag("Interactable"))// && other.gameObject.Equals(currInter))
         {
             currInter = null;
+            Debug.Log("what2");
         }
     }
 

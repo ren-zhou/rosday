@@ -221,7 +221,8 @@ public class RoyController : MonoBehaviour
     /// </summary>
     private void CheckIfWallSliding()
     {
-        isWallSliding = isOnWall && !isGrounded && rb.velocity.y < 0 && (movementInputDirection == facingDirection || isWallSliding);
+        isWallSliding = isOnWall && !isGrounded && (rb.velocity.y <= 0 || isWallStalling) && (movementInputDirection == facingDirection || isWallSliding);
+        isWallStalling = isWallStalling && isWallSliding;
     }
     /// <summary>
     /// Updates the animation controller.
@@ -288,11 +289,23 @@ public class RoyController : MonoBehaviour
         }
         if (isWallSliding && rb.velocity.y < -wallSlideSpeed)
         {
-            rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            WallSlide();
+            
         }
         if (!isGrounded && isCrouching)
         {
             Uncrouch();
+        }
+    }
+
+    public bool isWallStalling;
+    private void WallSlide()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+        if (isWallStalling)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 9.81f * Time.fixedDeltaTime * 3);
+            Debug.Log("hi");
         }
     }
 
@@ -503,5 +516,10 @@ public class RoyController : MonoBehaviour
     public void Die()
     {
         rb.transform.position = respawnPos;
+    }
+
+    public bool IsWallSliding()
+    {
+        return isWallSliding;
     }
 }

@@ -25,7 +25,15 @@ public class Stall : MonoBehaviour
     {
         if (Input.GetButtonDown("Stall"))
         {
-            StartStall();
+            if (rc.IsWallSliding())
+            {
+                WallStall();
+            }
+            else
+            {
+                StartStall();
+            }
+
         }
     }
 
@@ -52,6 +60,11 @@ public class Stall : MonoBehaviour
             rc.LockInputs();
             StallCont();
         }
+    }
+
+    private void WallStall()
+    {
+        rc.isWallStalling = true;
     }
 
     private void StallCont()

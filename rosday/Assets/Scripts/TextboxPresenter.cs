@@ -7,11 +7,13 @@ using System.Text;
 
 public class TextboxPresenter : MonoBehaviour
 {
+    private GameObject panel;
+
     /** Panel that has image of dialogue box. */
-    public GameObject textbox;
+    private GameObject textbox;
 
     /** The filer text that gives the locations, font, size, etc, of the text. */
-    public Text textHolder;
+    private Text textHolder;
 
     /** The currently showing dialogue in the panel. */
     private StringBuilder dialogue;
@@ -19,9 +21,9 @@ public class TextboxPresenter : MonoBehaviour
     private StringReader lineSourceSR;
 
     /** Panel that holds the name. */
-    public GameObject namebox;
+    private GameObject namebox;
     /** The text that is filled a name. */
-    public Text nameHolder;
+    private Text nameHolder;
 
     /** Queue of lines in the loaded dialogue. */
     private Queue lineQ;
@@ -45,6 +47,14 @@ public class TextboxPresenter : MonoBehaviour
 
     private void Start()
     {
+        panel = GameObject.FindGameObjectsWithTag("DialogueTextbox")[0];
+        textbox = panel.transform.GetChild(0).gameObject;
+        textHolder = textbox.transform.GetChild(0).gameObject.GetComponent<Text>();
+        namebox = panel.transform.GetChild(1).gameObject;
+        nameHolder = namebox.transform.GetChild(0).gameObject.GetComponent<Text>();
+
+
+
         textbox.SetActive(false);
         player = FindObjectOfType<RoyController>();
         dialogue = new StringBuilder();

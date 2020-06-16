@@ -281,6 +281,7 @@ MonoBehaviour:
   accelerationBuff: 0
   groundAcceleration: 42
   groundDeceleration: 1.2
+  jumpLeeway: 2
   airAcceleration: 37
   airDeceleration: 0.6
   maxFallSpeed: 20

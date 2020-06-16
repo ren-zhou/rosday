@@ -8,6 +8,7 @@ TagManager:
   - Interactable
   - Roy
   - Spike
+  - DialogueTextbox
   layers:
   - Default
   - TransparentFX

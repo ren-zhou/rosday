@@ -107,6 +107,12 @@ public class RoyController : MonoBehaviour
         UpdateAnimations();
     }
 
+    private void OnDrawGizmos()
+    {
+        UnityEditor.Handles.color = Color.yellow;
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, 1f);
+    }
+
     private void FixedUpdate()
     {
         CheckSurroundings();

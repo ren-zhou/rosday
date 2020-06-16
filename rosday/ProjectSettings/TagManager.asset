@@ -9,6 +9,7 @@ TagManager:
   - Roy
   - Spike
   - DialogueTextbox
+  - CamLooksAt
   layers:
   - Default
   - TransparentFX

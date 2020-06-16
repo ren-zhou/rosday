@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CameraSetter : MonoBehaviour
 {
-    // Start is called before the first frame update
+    Transform camLooksAt;
     void Start()
     {
-        
+        camLooksAt = GameObject.FindGameObjectWithTag("CamLooksAt").transform;
     }
 
     // Update is called once per frame
@@ -20,7 +20,9 @@ public class CameraSetter : MonoBehaviour
     {
         if (collision.CompareTag("Roy"))
         {
-            collision.transform.Find("CamLooksAt");
+            camLooksAt.position = transform.position;
+            //collision.transform.Find("CamLooksAt").transform.position = transform.position;
+            
         }
     }
 }

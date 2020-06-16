@@ -152,6 +152,12 @@ TextureImporter:
   - first:
       213: -925946458290441025
     second: 8grovetile_49
+  - first:
+      213: 6671130940475462065
+    second: 8grovetile_50
+  - first:
+      213: 5629659211311698410
+    second: 8grovetile_51
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -1297,6 +1303,51 @@ TextureImporter:
       bones: []
       spriteID: fb431902a906623f0800000000000000
       internalID: -925946458290441025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8grovetile_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -4, y: -4}
+        - {x: -4, y: 4}
+        - {x: 4, y: 4}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b15825ce3e949c50800000000000000
+      internalID: 6671130940475462065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8grovetile_51
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 16
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae15db8b931902e40800000000000000
+      internalID: 5629659211311698410
       vertices: []
       indices: 
       edges: []

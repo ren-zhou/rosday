@@ -26,6 +26,7 @@ public class RoyController : MonoBehaviour
     public float accelerationBuff;
     public float groundAcceleration;
     public float groundDeceleration;
+    public int jumpLeeway;
 
     /* Aerial Movement: */
     public float airAcceleration;
@@ -57,6 +58,7 @@ public class RoyController : MonoBehaviour
     private bool isWalking;
     private bool isWallSliding;
     private bool isGrounded;
+    private int pfsg;
 
     private bool isOnWall;
     private bool isNextToWall;
@@ -97,6 +99,7 @@ public class RoyController : MonoBehaviour
         abilitySet = new HashSet<string>();
         respawnPos = transform.position;
         UnlockAbility("stall");
+        pfsg = 0;
     }
 
 
@@ -174,6 +177,7 @@ public class RoyController : MonoBehaviour
     private void CheckSurroundings()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, groundLM) || Physics2D.OverlapCircle(groundCheck.position, groundCheckDistance, slideLM);
+        pfsg = isGrounded ? 0: pfsg + 1;
         isOnWall = Physics2D.OverlapArea(WallCheckMidA.position, WallCheckMidB.position, groundLM);
         if (isOnWall)
         {
@@ -194,7 +198,7 @@ public class RoyController : MonoBehaviour
     private void CheckMoveConditions()
     {
         tillNextDash = tillNextDash > 0 ? tillNextDash - 1 : 0;
-        canGroundJump = isGrounded;
+        canGroundJump = isGrounded || pfsg < jumpLeeway;
         canAirJump = isGrounded || canAirJump || isOnWall;
         canDash = (isGrounded || canDash || isOnWall) && tillNextDash == 0   && HasAbility("dash");
     }

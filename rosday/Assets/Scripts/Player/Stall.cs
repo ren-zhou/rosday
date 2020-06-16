@@ -13,11 +13,15 @@ public class Stall : MonoBehaviour
     private int stallsLeft;
     private Rigidbody2D rb;
     private RoyController rc;
+    public Vector2 bounceVector;
+    public LayerMask spikeLM;
+    public float bubbleRadius;
 
     private void Start()
     {
         rb = transform.parent.gameObject.GetComponent<Rigidbody2D>();
         rc = transform.parent.gameObject.GetComponent<RoyController>();
+
     }
     private void Update()
     {
@@ -29,10 +33,6 @@ public class Stall : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (stallTimer < 0)
-        {
-            stallTimer = 0;
-        }
         if (stallTimer > 0)
         {
             StallCont();
@@ -41,6 +41,7 @@ public class Stall : MonoBehaviour
         {
             stallsLeft = totalStalls;
         }
+        tillNextStall = tillNextStall > 0 ? tillNextStall - 1 : 0;
     }
 
     public void StartStall()
@@ -49,12 +50,20 @@ public class Stall : MonoBehaviour
         {
             stallTimer = stallTime;
             canStall = false;
+            stallsLeft = stallsLeft > 0 ? stallsLeft - 1 : 0;
             rc.LockInputs();
         }
+        StallCont();
     }
 
     private void StallCont()
     {
+        if (Physics2D.OverlapCircle(rb.position, bubbleRadius, spikeLM))
+        {
+            Bounce();
+        }
+
+
         if (stallTimer > 0)
         {
             rb.velocity = new Vector2(0, 9.81f * Time.fixedDeltaTime * 3);
@@ -62,11 +71,21 @@ public class Stall : MonoBehaviour
         }
         if (stallTimer == 1)
         {
-            tillNextStall = 1;
-            stallsLeft--;
-            rc.ReleaseInputs();
-            Debug.Log("hi?");
+            EndStall();
         }
     }
 
+    private void Bounce()
+    {
+        EndStall();
+        rb.velocity = bounceVector;
+
+    }
+
+    private void EndStall()
+    {
+        stallTimer = 0;
+        tillNextStall = 1;
+        rc.ReleaseInputs();
+    }
 }

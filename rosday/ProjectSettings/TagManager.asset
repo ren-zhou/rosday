@@ -7,6 +7,7 @@ TagManager:
   - NPC
   - Interactable
   - Roy
+  - Spike
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Ground
   - Slide
   - Water
-  - 
+  - Spike
   - 
   - 
   - 

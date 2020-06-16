@@ -16,8 +16,6 @@ public class DialogueSender : MonoBehaviour
     [SerializeField]
     private int[] setNums;
 
-    GlobalEvents events;
-
     [SerializeField] private GameObject bubble;
 
     TextboxPresenter presenter;
@@ -32,7 +30,6 @@ public class DialogueSender : MonoBehaviour
     void Start()
     {
         presenter = FindObjectOfType<TextboxPresenter>();
-        events = FindObjectOfType<GlobalEvents>();
         bubble.SetActive(false);
     }
     private void CreateSets(string text)
@@ -53,7 +50,7 @@ public class DialogueSender : MonoBehaviour
             return sets[0].nextLine();
         }
 
-        int index = events.GetFirstTrueIndex(conditions);
+        int index = GlobalEvents.GetFirstTrueIndex(conditions);
         if (index < 0)
         {
             return sets[0].nextLine();

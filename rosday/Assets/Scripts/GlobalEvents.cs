@@ -4,18 +4,13 @@ using UnityEngine;
 
 /** Controls various states of the game, including NPC dialogue that is dependent on player actions/player state,
  map conditions, etc. Manages "Conditions," which are each uniquely identified by a string. */
-public class GlobalEvents : MonoBehaviour
+public static class GlobalEvents
 {
     /** Dictionary containing conditions and whether they are true or false. */
-    Dictionary<string, bool> conditions;
-
-    void Start()
-    {
-        conditions = new Dictionary<string, bool>();
-    }
+    private static Dictionary<string, bool> conditions = new Dictionary<string, bool>();
 
     /** Set the conditionName to be tf. */
-    public void UpdateCondition(string conditionName, bool tf)
+    public static void UpdateCondition(string conditionName, bool tf)
     {
         if (conditions.ContainsKey(conditionName))
         {
@@ -27,7 +22,7 @@ public class GlobalEvents : MonoBehaviour
     }
 
     /** Returns whether or not conditionName is currently true. */
-    public bool GetCondition(string conditionName)
+    public static bool GetCondition(string conditionName)
     {
         bool def;
         conditions.TryGetValue(conditionName, out def);
@@ -38,7 +33,7 @@ public class GlobalEvents : MonoBehaviour
     /// </summary>
     /// <param name="conditions"></param>
     /// <returns>A list of bools being true or false corresponding to the conditions. </returns>
-    public bool[] GetConditions(List<string> conditions)
+    public static bool[] GetConditions(List<string> conditions)
     {
         bool[] results = new bool[conditions.Count];
         for (int i = 0; i < conditions.Count; i++)
@@ -50,7 +45,7 @@ public class GlobalEvents : MonoBehaviour
 
     /** Returns the index of the first true condition. If none of the conditions are
      true, then it returns -1. */
-    public int GetFirstTrueIndex(string[] conditions)
+    public static int GetFirstTrueIndex(string[] conditions)
     {
         for (int i = 0; i < conditions.Length; i++)
         {

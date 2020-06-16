@@ -21,7 +21,6 @@ public class PlayerInteract : MonoBehaviour
         if (other.CompareTag("Interactable"))// && other.gameObject.Equals(currInter))
         {
             currInter = null;
-            Debug.Log("what2");
         }
     }
 
@@ -30,6 +29,11 @@ public class PlayerInteract : MonoBehaviour
         if(Input.GetButtonDown("Interact") && currInter)
         {
             currInter.Act();
+            ConditionSender sender = currInter.GetComponent<ConditionSender>();
+            if (sender != null)
+            {
+                sender.Act();
+            }
         }
     }
 

@@ -499,7 +499,10 @@ public class RoyController : MonoBehaviour
         abilitySet.Add(ability);
     }
 
-
+    public void SetSpawn(Transform point)
+    {
+        respawnPos = point.position;
+    }
 
 
     /// <summary>

@@ -1,0 +1,9 @@
+Press Z to stall. It can have 2 effects:
+1. Freeze you for a moment, zeroing your velocity. This can allow you to get across gaps you might not be able to otherwise.
+2. Bounce you upwards. This'll happen if there are spikes within your stall radius. You maintain your x-velocity, are bounced upwards, and get your double jump back.
+You can stall 3 times. If you bounce, you get your stall back, but you cannot attempt a stall if you've used all 3.@
+Also, don't go back into the other room because I don't have good room transitions set up lol.
+>>>>>
+Go finish. I already explained how to do this.@
+Lmao imagine making good levels.@
+Woah! I have random dialogue!

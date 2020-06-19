@@ -15,15 +15,21 @@ public class Stall : MonoBehaviour
     public Vector2 bounceVector;
     public LayerMask spikeLM;
     public float bubbleRadius;
+
+    private SpriteRenderer sr;
+    private GameObject bouncefx;
     private void Start()
     {
         rb = transform.parent.gameObject.GetComponent<Rigidbody2D>();
         rc = transform.parent.gameObject.GetComponent<RoyController>();
-
+        sr = GetComponent<SpriteRenderer>();
+        bouncefx = transform.Find("bounce").gameObject;
+        sr.enabled = false;
+        bouncefx.SetActive(false);
     }
     private void Update()
     {
-        if (Input.GetButtonDown("Stall"))
+        if (Input.GetButtonDown("Stall") && rc.HasAbility("stall"))
         {
             if (rc.IsWallSliding())
             {
@@ -39,6 +45,7 @@ public class Stall : MonoBehaviour
 
     private void FixedUpdate()
     {
+        DeactivateVisuals();
         if (stallTimer > 0)
         {
             StallCont();
@@ -50,11 +57,18 @@ public class Stall : MonoBehaviour
         tillNextStall = tillNextStall > 0 ? tillNextStall - 1 : 0;
     }
 
+    private void DeactivateVisuals()
+    {
+        sr.enabled = false;
+        bouncefx.SetActive(false);
+    }
+
     public void StartStall()
     {
         if (stallsLeft > 0 && tillNextStall == 0)
         {
             rc.EndDash();
+            sr.enabled = true;
             stallTimer = stallTime;
             stallsLeft = stallsLeft > 0 ? stallsLeft - 1 : 0;
             rc.LockInputs();
@@ -69,6 +83,7 @@ public class Stall : MonoBehaviour
 
     private void StallCont()
     {
+
         if (Physics2D.OverlapCircle(transform.position, bubbleRadius, spikeLM))
         {
             Bounce();
@@ -87,23 +102,24 @@ public class Stall : MonoBehaviour
 
     private void Bounce()
     {
-        EndStall();
+
         rb.velocity = new Vector2(rb.velocity.x, bounceVector.y);
+        bouncefx.SetActive(true);
         rc.RefreshMovement();
         stallsLeft++;
-
+        EndStall();
     }
 
     private void EndStall()
     {
         stallTimer = 0;
-        tillNextStall = 1;
+        tillNextStall = 3;
         rc.ReleaseInputs();
     }
 
-    private void OnDrawGizmos()
-    {
-        UnityEditor.Handles.color = Color.red;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, bubbleRadius);
-    }
+//    private void OnDrawGizmos()
+//    {
+//        UnityEditor.Handles.color = Color.red;
+//        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, bubbleRadius);
+//    }
 }

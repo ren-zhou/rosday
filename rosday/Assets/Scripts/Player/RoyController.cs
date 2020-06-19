@@ -51,7 +51,6 @@ public class RoyController : MonoBehaviour
     public float dashSpeed;
     public int dashLength;
     public int dashCooldown;
-    private HashSet<string> abilitySet;
 
     /* Keep track of states during gameplay. */
     private bool isFacingRight = true;
@@ -96,9 +95,8 @@ public class RoyController : MonoBehaviour
         bcSize = bc.size;
         bcOffset = bc.offset;
         accelerationBuff = 1;
-        abilitySet = new HashSet<string>();
+
         respawnPos = transform.position;
-        UnlockAbility("stall");
         pfsg = 0;
     }
 
@@ -490,15 +488,6 @@ public class RoyController : MonoBehaviour
         rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
-    /// <summary>
-    /// Marks an ability as owned by adding it to a set of owned abilities.
-    /// </summary>
-    /// <param name="ability"></param>
-    public void UnlockAbility(string ability)
-    {
-        abilitySet.Add(ability);
-    }
-
     public void SetSpawn(Transform point)
     {
         respawnPos = point.position;
@@ -512,7 +501,7 @@ public class RoyController : MonoBehaviour
     /// <returns></returns>
     public bool HasAbility(string ability)
     {
-        return abilitySet.Contains(ability);
+        return AbilityUse.HasAbility(ability);
     }
 
 

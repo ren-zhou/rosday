@@ -10,7 +10,6 @@ public class AbilityGiver : NPC
     public override void Act()
     {
         base.Act();
-        RoyController player = FindObjectOfType<RoyController>();
-        player.UnlockAbility(ability);
+        AbilityUse.UnlockAbility(ability);
     }
 }

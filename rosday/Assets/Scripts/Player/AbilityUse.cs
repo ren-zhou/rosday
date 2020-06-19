@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityUse : MonoBehaviour
+public static class AbilityUse
 {
-    //Stall-related
-    private int stallTime = 3;
-    private int stallTimer;
-    private int tillNextStall;
 
-    // Start is called before the first frame update
-    void Start()
+    private static HashSet<string> abilitySet = new HashSet<string>();
+
+    public static void UnlockAbility(string ability)
     {
-        
+        abilitySet.Add(ability);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    /// <summary>
+    /// Returns whether the ability is owned.
+    /// </summary>
+    /// <param name="ability"></param>
+    /// <returns></returns>
+    public static bool HasAbility(string ability)
     {
-        
+        return abilitySet.Contains(ability);
     }
 }

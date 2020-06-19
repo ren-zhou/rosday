@@ -10,6 +10,7 @@ TagManager:
   - Spike
   - DialogueTextbox
   - CamLooksAt
+  - Metal
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PushState;
 
 public class RoyCheck : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class RoyCheck : MonoBehaviour
     private bool jumpedLastFrame;
     private bool isCrouching;
     public int jumpLeeway;
-
+    private PushPull pushll;
     
 
     // Start is called before the first frame update
@@ -49,6 +50,7 @@ public class RoyCheck : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pfsg = 0;
+        pushll = GetComponent<PushPull>();
         canInput = true;
     }
 
@@ -105,6 +107,18 @@ public class RoyCheck : MonoBehaviour
             {
                 Uncrouch();
             }
+        }
+        if (Input.GetButtonDown("Push"))
+        {
+            pushll.currAction = Pushing;
+        } else if (Input.GetButtonDown("Pull"))
+        {
+            pushll.currAction = Pulling;
+        }
+        else if ((Input.GetButtonUp("Push") && pushll.currAction == Pushing)
+            || (Input.GetButtonUp("Pull") && pushll.currAction == Pulling))
+        {
+            pushll.currAction = None;
         }
     }
 

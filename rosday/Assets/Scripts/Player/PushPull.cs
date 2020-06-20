@@ -18,18 +18,21 @@ public class PushPull : MonoBehaviour
 
     private Rigidbody2D rb;
     private Transform[] metals;
-    private Vector3 nearestMetalPos;
-    LineRenderer lr;
+    private Transform nearestMetalTrans;
+    LineRenderer nearLR;
+    LineRenderer currLR;
 
     public PushState currAction;
 
-    private bool isPulling;
+    private Transform currMetalTrans;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         metals = TransformsFromGameObjects(GameObject.FindGameObjectsWithTag("Metal"));
-        CreateLine();
+        CreateNearLine();
+        //CreateCurrLine();
         currAction = None;
     }
 
@@ -46,12 +49,14 @@ public class PushPull : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateMetalLine();
+        UpdateNearestLine();
+        //UpdateCurrLine();
     }
 
     private void FixedUpdate()
     {
         FindNearestMetal();
+        UpdateCurrMetal();
         if (currAction == Pushing)
         {
             Pushll(-1);
@@ -61,25 +66,48 @@ public class PushPull : MonoBehaviour
         }
     }
 
-    private void CreateLine()
+    private void CreateNearLine()
     {
         GameObject line = new GameObject();
         line.transform.position = transform.position;
         line.AddComponent<LineRenderer>();
-        lr = line.GetComponent<LineRenderer>();
-        lr.startColor = Color.blue;
-        lr.endColor = Color.blue;
-        lr.startWidth = 0.1f;
-        lr.endWidth = 0.1f;
-        lr.SetPosition(0, transform.position);
-        lr.SetPosition(1, nearestMetalPos);
+        nearLR = line.GetComponent<LineRenderer>();
+        nearLR.startWidth = 0.1f;
+        nearLR.endWidth = 0.1f;
+        //nearLR.SetPosition(0, transform.position);
+        //nearLR.SetPosition(1, nearestMetalPos);
     }
 
-    private void UpdateMetalLine()
+    //private void CreateCurrLine()
+    //{
+    //    GameObject line = new GameObject();
+    //    line.transform.position = transform.position;
+    //    line.AddComponent<LineRenderer>();
+    //    currLR = line.GetComponent<LineRenderer>();
+    //    currLR.startWidth = 0.1f;
+    //    currLR.endWidth = 0.1f;
+    //}
+
+    private void UpdateNearestLine()
     {
-        lr.SetPosition(1, nearestMetalPos);
-        lr.SetPosition(0, transform.position);
+        nearLR.SetPosition(1, nearestMetalTrans.position);
+        nearLR.SetPosition(0, transform.position);
     }
+
+    //private void UpdateCurrLine()
+    //{
+    //    if (currMetalPos == impossiblePos)
+    //    {
+    //        currLR.enabled = false;
+    //    }
+    //    else
+    //    {
+    //        currLR.enabled = true;
+    //        currLR.SetPosition(1, currMetalPos);
+    //        currLR.SetPosition(0, transform.position);
+    //    }
+
+    //}
 
 
 
@@ -89,23 +117,33 @@ public class PushPull : MonoBehaviour
     /// <param name="dir"></param>
     private void Pushll(int dir)
     {
-        Vector3 direction = nearestMetalPos - transform.position;
+        Transform metal = currMetalTrans != null ? currMetalTrans : nearestMetalTrans;
+        currMetalTrans = metal;
+        Vector3 direction = metal.position - transform.position;
         direction.Normalize();
         rb.AddForce(direction * pushForce * dir);
     }
 
+    private void UpdateCurrMetal()
+    {
+        if (currAction == None)
+        {
+            currMetalTrans = null;
+        }
+    }
+
     private void FindNearestMetal()
     {
-        Vector3 min = metals[0].position;
-        float minDistance = Vector3.Distance(min, transform.position);
+        Transform min = metals[0];
+        float minDistance = Vector3.Distance(min.position, transform.position);
         for (int i = 1; i < metals.Length; i++)
         {
             if (Vector3.Distance(metals[i].position, transform.position) < minDistance)
             {
-                min = metals[i].position;
+                min = metals[i];
             }
         }
-        nearestMetalPos = min;
+        nearestMetalTrans = min;
 
     }
 }

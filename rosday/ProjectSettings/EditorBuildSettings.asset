@@ -11,10 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Orange Grove.unity
     guid: 4e693996c373c704b96f1dbb146c80c4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Intro.unity
     guid: 9503e36abbaba5f458127fbb89e64b95
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Stall0.unity
     guid: 4b60ee84634e8d048853ec5be9d9608f
+  - enabled: 1
+    path: Assets/Scenes/pushll_test.unity
+    guid: 93ede7783019ae94bb8f37a696e48126
   m_configObjects: {}

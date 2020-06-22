@@ -8,6 +8,7 @@ public static class GlobalEvents
 {
     /** Dictionary containing conditions and whether they are true or false. */
     private static Dictionary<string, bool> conditions = new Dictionary<string, bool>();
+    private static Dictionary<string, Vector3> spawnLocations = new Dictionary<string, Vector3>();
 
     /** Set the conditionName to be tf. */
     public static void UpdateCondition(string conditionName, bool tf)
@@ -55,5 +56,24 @@ public static class GlobalEvents
             }
         }
         return -1;
+    }
+
+    public static void SetEntry(string sceneName, Vector3 spawnPoint)
+    {
+        if (spawnLocations.ContainsKey(sceneName))
+        {
+            spawnLocations[sceneName] = spawnPoint;
+        }
+        else
+        {
+            spawnLocations.Add(sceneName, spawnPoint);
+        }
+    }
+
+    public static Vector3 GetEntry(string sceneName)
+    {
+        Vector3 ret;
+        spawnLocations.TryGetValue(sceneName, out ret);
+        return ret;
     }
 }

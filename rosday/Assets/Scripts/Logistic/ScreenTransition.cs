@@ -23,6 +23,7 @@ public class ScreenTransition : MonoBehaviour
     {
         if (collision.CompareTag("Roy"))
         {
+            GlobalEvents.SetEntry(SceneManager.GetActiveScene().name, transform.position);
             SceneManager.LoadScene(scene);
         }
     }

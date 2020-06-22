@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoyController : MonoBehaviour
 {
@@ -87,6 +88,8 @@ public class RoyController : MonoBehaviour
 
     void Start()
     {
+
+
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         wallJumpDirection.Normalize();
@@ -98,6 +101,14 @@ public class RoyController : MonoBehaviour
 
         respawnPos = transform.position;
         pfsg = 0;
+
+        Vector3 entry = GlobalEvents.GetEntry(SceneManager.GetActiveScene().name);
+        if (!entry.Equals(new Vector3(0,0,0)))
+        {
+            respawnPos = entry;
+            rb.transform.position = entry;
+            Debug.Log("here2");
+        }
     }
 
 

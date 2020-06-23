@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 6020673300509431481}
   - component: {fileID: 6020673300509431482}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: roy1
   m_TagString: Roy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -329,7 +329,7 @@ MonoBehaviour:
   pushForce: 150
   pushDecay: 1
   currLR: {fileID: 8514754072753550962}
-  currAction: 0
+  currAction: 2
 --- !u!120 &6020673300509431481
 LineRenderer:
   m_ObjectHideFlags: 0

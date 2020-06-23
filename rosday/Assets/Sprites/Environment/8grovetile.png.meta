@@ -158,8 +158,17 @@ TextureImporter:
   - first:
       213: 5629659211311698410
     second: 8grovetile_51
+  - first:
+      213: -8517430683857406287
+    second: 8grovetile_52
+  - first:
+      213: -152802610163127729
+    second: 8grovetile_53
+  - first:
+      213: -1851960062298028924
+    second: 8grovetile_54
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -213,6 +222,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1340,7 +1350,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1348,6 +1358,69 @@ TextureImporter:
       bones: []
       spriteID: ae15db8b931902e40800000000000000
       internalID: 5629659211311698410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8grovetile_52
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 32
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b6baa99be10cc980800000000000000
+      internalID: -8517430683857406287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8grovetile_53
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4a697ce5d221edf0800000000000000
+      internalID: -152802610163127729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8grovetile_54
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 484048ca2248c46e0800000000000000
+      internalID: -1851960062298028924
       vertices: []
       indices: 
       edges: []

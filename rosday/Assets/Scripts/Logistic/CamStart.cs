@@ -8,6 +8,7 @@ public class CamStart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = GameObject.Find("Player").transform.position;
         Vector3 entry = GlobalEvents.GetEntry(SceneManager.GetActiveScene().name);
         if (!entry.Equals(new Vector3(0, 0, 0)))
         {

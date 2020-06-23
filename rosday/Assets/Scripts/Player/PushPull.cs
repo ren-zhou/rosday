@@ -31,6 +31,10 @@ public class PushPull : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         metals = TransformsFromGameObjects(GameObject.FindGameObjectsWithTag("Metal"));
+        if (metals.Length == 0)
+        {
+            GetComponent<PushPull>().enabled = false;
+        }
         CreateNearLine();
         CreateCurrLine();
         currAction = None;
@@ -83,6 +87,7 @@ public class PushPull : MonoBehaviour
         //GameObject line = new GameObject();
         //line.transform.position = transform.position;
         //line.AddComponent<LineRenderer>();
+
         currLR = currLR.GetComponent<LineRenderer>();
         currLR.startWidth = 0.1f;
         currLR.endWidth = 0.1f;
@@ -152,7 +157,6 @@ public class PushPull : MonoBehaviour
             }
         }
         nearestMetalTrans = min;
-
     }
 
     public void Die()

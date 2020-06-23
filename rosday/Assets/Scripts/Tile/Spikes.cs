@@ -13,7 +13,6 @@ public class Spikes : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("spike");
         if (other.CompareTag("Roy"))
         {
             //x player.Die();

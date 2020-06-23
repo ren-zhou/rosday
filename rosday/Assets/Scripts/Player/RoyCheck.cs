@@ -190,6 +190,19 @@ public class RoyCheck : MonoBehaviour
     {
         canInput = false;
     }
+
+    public void LockInputs(float seconds)
+    {
+        LockInputs();
+        StartCoroutine(Wait(seconds));
+
+    }
+
+    IEnumerator Wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        ReleaseInputs();
+    }
     public void ReleaseInputs()
     {
         canInput = true;
@@ -248,6 +261,18 @@ public class RoyCheck : MonoBehaviour
         anim.SetFloat("yVelocity", rb.velocity.y);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isCrouching", isCrouching);
+    }
+
+    public void Die()
+    {
+        moveInputDir = 0;
+        jumpedLastFrame = false;
+        pfsg = 1000;
+        if (!isFacingRight)
+        {
+            Flip();
+        }
+        LockInputs(0.75f);
     }
 
 }

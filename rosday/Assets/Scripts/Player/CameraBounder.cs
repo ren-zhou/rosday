@@ -34,7 +34,7 @@ public class CameraBounder : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         //bool inX = !(transform.position.x <= minX || transform.position.x <= maxX);
         //bool inY = !(transform.position.y <= minY || transform.position.y <= maxY);

@@ -1366,12 +1366,12 @@ TextureImporter:
       name: 8grovetile_52
       rect:
         serializedVersion: 2
-        x: 55
+        x: 56
         y: 32
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1387,12 +1387,12 @@ TextureImporter:
       name: 8grovetile_53
       rect:
         serializedVersion: 2
-        x: 47
+        x: 48
         y: 24
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1408,12 +1408,12 @@ TextureImporter:
       name: 8grovetile_54
       rect:
         serializedVersion: 2
-        x: 55
+        x: 56
         y: 24
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -278,4 +278,11 @@ public class RoyCheck : MonoBehaviour
         LockInputs(0.75f);
     }
 
+    public void OnDrawGizmos()
+    {
+        //UnityEditor.Handles.color = Color.yellow;
+        //UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, 1f);
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + 11f, transform.position.y + 6.2f, transform.position.z));
+    }
+
 }

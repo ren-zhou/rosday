@@ -12,6 +12,7 @@ public class RoyCheck : MonoBehaviour
     public Transform groundCheck;
     public Transform WallCheckA;
     public Transform WallCheckB;
+    private CameraBounder cb;
 
 
     /* Surrounding Check Related: */
@@ -52,6 +53,7 @@ public class RoyCheck : MonoBehaviour
         pfsg = 0;
         pushll = GetComponent<PushPull>();
         canInput = true;
+
     }
 
     // Update is called once per frame
@@ -252,6 +254,7 @@ public class RoyCheck : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
+        //cb.Flip();
     }
 
     private void UpdateAnimations()

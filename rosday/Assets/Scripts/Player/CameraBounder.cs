@@ -31,6 +31,8 @@ public class CameraBounder : MonoBehaviour
         //Debug.Log(roy);
         rc = GameObject.Find("roy1").GetComponent<RoyCheck>();
         prevSign = rc.FacingDirection();
+        transform.position = roy.transform.position;
+        Limit();
     }
 
     // Update is called once per frame
@@ -52,21 +54,20 @@ public class CameraBounder : MonoBehaviour
         //    transform.position = new Vector2(transform.position.x, Mathf.Clamp(transform.parent.transform.position.y, minY, maxY));
         //}
 
-        
+
 
 
         //transform.position = new Vector2(Mathf.Clamp(transform.parent.transform.position.x, minX, maxX), transform.position.y);
         //transform.position = new Vector2(transform.position.x, Mathf.Clamp(transform.parent.transform.position.y, minY, maxY));
 
-        transform.position = new Vector2(Mathf.Clamp(roy.transform.position.x, minX, maxX), transform.position.y);
-        //float newSignx = rc.FacingDirection();
-        //if (newSign != prevSign)
-        //{
-        //    transform.position = new Vector2(Mathf.Clamp(-transform.parent.transform.position.x, minX, maxX), transform.position.y);
-        //}
-        //prevSign = newSign;
-        transform.position = new Vector2(transform.position.x, Mathf.Clamp(roy.transform.position.y, minY, maxY));
+        Limit();
 
+    }
+
+    private void Limit()
+    {
+        transform.position = new Vector2(Mathf.Clamp(roy.transform.position.x, minX, maxX), transform.position.y);
+        transform.position = new Vector2(transform.position.x, Mathf.Clamp(roy.transform.position.y, minY, maxY));
     }
 
     public void Flip()

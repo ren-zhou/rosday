@@ -11,6 +11,5 @@ public class ConditionSender : MonoBehaviour
     public void Act()
     {
         GlobalEvents.UpdateCondition(condition, isTrue);
-        Debug.Log("here");
     }
 }

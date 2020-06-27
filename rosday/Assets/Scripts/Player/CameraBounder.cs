@@ -23,8 +23,6 @@ public class CameraBounder : MonoBehaviour
         maxX = upperRight.position.x - camX;
         minY = lowerLeft.position.y + camY;
         maxY = upperRight.position.y - camY;
-        //Debug.Log(maxX + " " +  minX);
-        //Debug.Log(maxY + " " + minY);
         roy = GameObject.FindGameObjectWithTag("Roy");
         transform.position = roy.transform.position;
         Limit();

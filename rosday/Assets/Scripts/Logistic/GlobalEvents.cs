@@ -10,6 +10,7 @@ public static class GlobalEvents
     private static Dictionary<string, bool> conditions = new Dictionary<string, bool>();
     private static Dictionary<string, Vector3> spawnLocations = new Dictionary<string, Vector3>();
     private static Dictionary<string, bool> spawnDirections = new Dictionary<string, bool>();
+    private static Dictionary<string, bool> itemExists = new Dictionary<string, bool>();
 
     /** Set the conditionName to be tf. */
     public static void UpdateCondition(string conditionName, bool tf)
@@ -85,6 +86,27 @@ public static class GlobalEvents
         bool ret;
         spawnDirections.TryGetValue(sceneName, out ret);
         return ret;
+    }
+
+    public static void UpdateItemExistence(string item, bool exists)
+    {
+        if (itemExists.ContainsKey(item))
+        {
+            itemExists[item] = exists;
+        }
+        else
+        {
+            itemExists.Add(item, exists);
+        }
+    }
+
+    public static bool GetItemExistence(string item)
+    {
+        if (itemExists.ContainsKey(item))
+        {
+            return itemExists[item];
+        }
+        return true;
     }
 
    

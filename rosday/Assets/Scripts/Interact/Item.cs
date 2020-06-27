@@ -10,6 +10,10 @@ public class Item : Interactable
     private TextboxPresenter presenter;
     void Start()
     {
+        if (!GlobalEvents.GetItemExistence(this.name))
+        {
+            transform.gameObject.SetActive(false);
+        }
         presenter = FindObjectOfType<TextboxPresenter>();
         bubble.SetActive(false);
     }
@@ -22,14 +26,17 @@ public class Item : Interactable
 
     public override void Act()
     {
-        if (!IsActive())
-        {
-            presenter.SetUp(this, line, false);
-            FreezeClicks();
-            transform.gameObject.SetActive(false);
-        }
+        presenter.SetUp(this, line, false);
+        PickUp();
+        transform.gameObject.SetActive(false);
 
 
+    }
+
+    private void PickUp()
+    {
+        GlobalEvents.UpdateItemExistence(name, false);
+        GameObject.Find("roy1").GetComponent<PushPull>().enabled = true;
     }
 
     public void OnTriggerEnter2D(Collider2D other)

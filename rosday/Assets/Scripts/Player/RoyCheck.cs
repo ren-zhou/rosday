@@ -288,6 +288,7 @@ public class RoyCheck : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         pushll.ZeroAction();
+        moveInputDir = 0;
     }
 
 }

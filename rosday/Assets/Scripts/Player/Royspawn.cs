@@ -24,7 +24,11 @@ public class Royspawn : MonoBehaviour
         {
             respawnPoint = entry;
             rb.transform.position = entry;
-            Debug.Log('h');
+            GameObject.Find("CamPoint").GetComponent<CameraBounder>().Limit();
+            if (!GlobalEvents.GetFacingDir(SceneManager.GetActiveScene().name))
+            {
+                rc.Flip();
+            }
             
         }
 

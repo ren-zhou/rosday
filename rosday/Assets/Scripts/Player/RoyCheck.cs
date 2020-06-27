@@ -250,11 +250,10 @@ public class RoyCheck : MonoBehaviour
     /// <summary>
     /// Flips the sprite and also flips conditions associated with facing direction.
     /// </summary>
-    private void Flip()
+    public void Flip()
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
-        //cb.Flip();
     }
 
     private void UpdateAnimations()
@@ -283,6 +282,12 @@ public class RoyCheck : MonoBehaviour
         //UnityEditor.Handles.color = Color.yellow;
         //UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.back, 1f);
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + 11f, transform.position.y + 6.2f, transform.position.z));
+    }
+
+    public void ZeroAll()
+    {
+        rb.velocity = Vector3.zero;
+        pushll.ZeroAction();
     }
 
 }

@@ -70,7 +70,7 @@ public class DialogueSender : MonoBehaviour
 
     public void SendDialogue()
     {
-        presenter.SetUp(Inter(), GetLine());
+        presenter.SetUp(Inter(), GetLine(), true);
     }
 
     private Interactable Inter()

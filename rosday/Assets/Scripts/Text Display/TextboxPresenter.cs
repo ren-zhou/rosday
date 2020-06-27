@@ -37,13 +37,15 @@ public class TextboxPresenter : MonoBehaviour
     Interactable currInter;
 
     /** The player. */
-    private RoyController player;
+    private RoyCheck player;
 
     /** True when the loaded dialogue has been finished. */
     private bool dialogueFinished;
 
     /** Keeps track of if interact has been pressed. */
     private bool interactPress;
+
+    public bool usingName;
 
     private void Start()
     {
@@ -56,7 +58,7 @@ public class TextboxPresenter : MonoBehaviour
 
 
         textbox.SetActive(false);
-        player = FindObjectOfType<RoyController>();
+        player = FindObjectOfType<RoyCheck>();
         dialogue = new StringBuilder();
         lineQ = new Queue();
         namebox.SetActive(false);
@@ -90,11 +92,18 @@ public class TextboxPresenter : MonoBehaviour
         }
     }
 
-    public void SetUp(Interactable inter, string textlines)
+    public void SetUp(Interactable inter, string textlines, bool hasName)
     {
         SetDialogueFromString(textlines);
         SetInter(inter);
         Activate();
+        usingName = hasName;
+        ActivateName();
+    }
+
+    private void ActivateName()
+    {
+        namebox.SetActive(usingName);
     }
 
 
@@ -183,7 +192,7 @@ public class TextboxPresenter : MonoBehaviour
     private void FreezePlayer()
     {
         player.LockInputs();
-        player.ZeroXVelocity();
+        player.ZeroAll();
     }
 
     /** Unlocks player inputs. */

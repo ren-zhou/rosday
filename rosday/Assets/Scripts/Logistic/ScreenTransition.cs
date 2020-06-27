@@ -7,6 +7,7 @@ public class ScreenTransition : MonoBehaviour
 {
 
     public string scene;
+    public bool facingRight;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,7 @@ public class ScreenTransition : MonoBehaviour
     {
         if (collision.CompareTag("Roy"))
         {
-            GlobalEvents.SetEntry(SceneManager.GetActiveScene().name, transform.position);
+            GlobalEvents.SetEntry(SceneManager.GetActiveScene().name, transform.position, facingRight);
             SceneManager.LoadScene(scene);
         }
     }

@@ -13,12 +13,10 @@ public class CameraBounder : MonoBehaviour
     private float minY;
     private float maxY;
 
-    private RoyCheck rc;
     private GameObject roy;
 
     public float camX;
     public float camY;
-    float prevSign;
     void Start()
     {
         minX = lowerLeft.position.x + camX;
@@ -28,9 +26,6 @@ public class CameraBounder : MonoBehaviour
         //Debug.Log(maxX + " " +  minX);
         //Debug.Log(maxY + " " + minY);
         roy = GameObject.FindGameObjectWithTag("Roy");
-        //Debug.Log(roy);
-        rc = GameObject.Find("roy1").GetComponent<RoyCheck>();
-        prevSign = rc.FacingDirection();
         transform.position = roy.transform.position;
         Limit();
     }
@@ -64,16 +59,10 @@ public class CameraBounder : MonoBehaviour
 
     }
 
-    private void Limit()
+    public void Limit()
     {
         transform.position = new Vector2(Mathf.Clamp(roy.transform.position.x, minX, maxX), transform.position.y);
         transform.position = new Vector2(transform.position.x, Mathf.Clamp(roy.transform.position.y, minY, maxY));
     }
 
-    public void Flip()
-    {
-        //transform.position = new Vector2(Mathf.Clamp(-transform.parent.transform.position.x, minX, maxX), transform.position.y);
-        transform.position = new Vector2(Mathf.Clamp(roy.transform.position.x, minX, maxX), transform.position.y);
-
-    }
 }

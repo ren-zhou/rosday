@@ -28,12 +28,13 @@ public class PlayerInteract : MonoBehaviour
     {
         if(Input.GetButtonDown("Interact") && currInter)
         {
-            currInter.Act();
+           
             ConditionSender sender = currInter.GetComponent<ConditionSender>();
             if (sender != null)
             {
                 sender.Act();
             }
+            currInter.Act();
         }
     }
 

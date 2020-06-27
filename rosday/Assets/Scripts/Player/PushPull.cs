@@ -29,6 +29,11 @@ public class PushPull : MonoBehaviour
 
     void Start()
     {
+        if (!GlobalEvents.GetCondition("pushll"))
+        {
+            this.enabled = false;
+        }
+
         rb = GetComponent<Rigidbody2D>();
         metals = TransformsFromGameObjects(GameObject.FindGameObjectsWithTag("Metal"));
         if (metals.Length == 0)
@@ -160,6 +165,11 @@ public class PushPull : MonoBehaviour
     }
 
     public void Die()
+    {
+        ZeroAction();
+    }
+
+    public void ZeroAction()
     {
         currAction = None;
     }

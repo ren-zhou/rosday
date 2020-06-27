@@ -107,7 +107,6 @@ public class RoyController : MonoBehaviour
         {
             respawnPos = entry;
             rb.transform.position = entry;
-            Debug.Log("here2");
         }
     }
 
@@ -314,7 +313,6 @@ public class RoyController : MonoBehaviour
         if (isWallStalling)
         {
             rb.velocity = new Vector2(rb.velocity.x, 9.81f * Time.fixedDeltaTime * 3);
-            Debug.Log("hi");
         }
     }
 

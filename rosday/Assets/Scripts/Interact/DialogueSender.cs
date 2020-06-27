@@ -64,7 +64,6 @@ public class DialogueSender : MonoBehaviour
         {
             index = sets.Length - 1;
         }
-        Debug.Log(index);
         return sets[index].nextLine();
     }
 

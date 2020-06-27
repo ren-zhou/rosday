@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/Scenes/pushll2.unity
     guid: 6515b2aa47ff0654b934943777c9e3e3
   - enabled: 1
-    path: Assets/Scenes/pushll_tut.unity
+    path: Assets/Scenes/pushll_intro.unity
     guid: 18f6a1c02103e954189633126936e74f
   - enabled: 1
     path: Assets/Scenes/forest0.unity

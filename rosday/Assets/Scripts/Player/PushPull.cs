@@ -26,10 +26,12 @@ public class PushPull : MonoBehaviour
 
     private Transform currMetalTrans;
 
+    public bool forceOn;
+
 
     void Start()
     {
-        if (!GlobalEvents.GetCondition("pushll"))
+        if (!GlobalEvents.GetCondition("pushll") && !forceOn)
         {
             this.enabled = false;
         }

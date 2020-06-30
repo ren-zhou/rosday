@@ -11,19 +11,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/old/Orange Grove.unity
     guid: 4e693996c373c704b96f1dbb146c80c4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/old/Intro.unity
     guid: 9503e36abbaba5f458127fbb89e64b95
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Stall0.unity
     guid: 4b60ee84634e8d048853ec5be9d9608f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/pushll_test.unity
     guid: 93ede7783019ae94bb8f37a696e48126
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/pushll2.unity
     guid: 6515b2aa47ff0654b934943777c9e3e3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/pushll_intro.unity
     guid: 18f6a1c02103e954189633126936e74f
   - enabled: 1

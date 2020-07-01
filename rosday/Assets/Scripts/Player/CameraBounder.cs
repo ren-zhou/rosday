@@ -25,6 +25,7 @@ public class CameraBounder : MonoBehaviour
         maxY = upperRight.position.y - camY;
         roy = GameObject.FindGameObjectWithTag("Roy");
         transform.position = roy.transform.position;
+
         Limit();
     }
 

@@ -62,6 +62,15 @@ public class RoyCheck : MonoBehaviour
         CheckInput();
         CheckAnimConditions();
         UpdateAnimations();
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    transform.position += Vector3.right * Time.deltaTime * speed;
+        //}
+
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    transform.position += Vector3.left * Time.deltaTime * speed;
+        //}
     }
 
     private void FixedUpdate()

@@ -83,6 +83,9 @@ TextureImporter:
   - first:
       213: 7172626572273506164
     second: cave_palette2_26
+  - first:
+      213: -8860214730653958044
+    second: cave_palette2_27
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -743,7 +746,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -751,6 +754,27 @@ TextureImporter:
       bones: []
       spriteID: 477d3e28dd94a8360800000000000000
       internalID: 7172626572273506164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cave_palette2_27
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46000b955a13a0580800000000000000
+      internalID: -8860214730653958044
       vertices: []
       indices: 
       edges: []

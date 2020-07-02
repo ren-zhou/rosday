@@ -16,7 +16,7 @@ public class RosCam : MonoBehaviour
     public Transform upperRight;
     public Transform lowerLeft;
 
-    private float leeway = 0.1f;
+    private float leeway = 3;
     private float minX;
     private float maxX;
 
@@ -25,10 +25,13 @@ public class RosCam : MonoBehaviour
 
     private GameObject roy;
 
+    private bool wasMovingLastFrame;
+
     void Start()
     {
         transform.position = new Vector3(target.transform.position.x, target.transform.position.y, -20);
         BoundSetUp();
+        wasMovingLastFrame = false;
     }
 
     private void BoundSetUp()
@@ -43,13 +46,13 @@ public class RosCam : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        //if (!CloseEnough(transform.position, target.position))
-        //{
+        if (!CloseEnough(transform.position, target.position) || wasMovingLastFrame)
+        {
             Adjust();
-        //}
-        //Limit();
+        }
+        Limit();
     }
     private void Adjust()
     {
@@ -60,28 +63,31 @@ public class RosCam : MonoBehaviour
         float xdiff = currx - tarx;
         float ydiff = curry - tary;
 
-        //float moveX = -xdiff / xBound * speed;
-        //float moveY = -ydiff / yBound * speed;
-        float moveX = -xdiff / xBound * speed * Time.deltaTime;
-        float moveY = -ydiff / yBound * speed * Time.deltaTime;
+        float moveX = -xdiff / xBound * speed;
+        float moveY = -ydiff / yBound * speed;
+        //float moveX = -xdiff / xBound * speed * Time.deltaTime;
+        //float moveY = -ydiff / yBound * speed * Time.deltaTime;
+        wasMovingLastFrame = moveX != 0 && moveY != 0;
 
         transform.position = new Vector3(transform.position.x + moveX, transform.position.y + moveY, transform.position.z);
 
     }
 
-    //private bool CloseEnough(Vector3 a, Vector3 b)
-    //{
-    //    if (a.x >= b.x - leeway && a.x <= b.x + leeway 
-    //        && a.y >= b.y - leeway && a.y <= b.y + leeway)
-    //    {
-    //        return true;
-    //    }
-    //        return false;
-    //}
 
-    //public void Limit()
-    //{
-    //    transform.position = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), transform.position.y, transform.position.z);
-    //    transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, minY, maxY), transform.position.z);
-    //}
+
+    private bool CloseEnough(Vector3 a, Vector3 b)
+    {
+        if (a.x >= b.x - leeway && a.x <= b.x + leeway
+            && a.y >= b.y - leeway && a.y <= b.y + leeway)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void Limit()
+    {
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, minY, maxY), transform.position.z);
+    }
 }

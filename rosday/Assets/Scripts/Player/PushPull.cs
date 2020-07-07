@@ -28,6 +28,10 @@ public class PushPull : MonoBehaviour
 
     public bool forceOn;
 
+    public bool log;
+
+    public float boostForce;
+
 
     void Start()
     {
@@ -137,19 +141,37 @@ public class PushPull : MonoBehaviour
         Vector3 direction = metal.position - transform.position;
         direction.Normalize();
         float distance = Vector3.Distance(metal.position, transform.position);
+        float force;
         if (distance < 10)
         {
-            distance = 1;
+            force = pushForce * dir * 1 / pushDecay;
         }
-        rb.AddForce(direction * pushForce * dir / (distance * pushDecay));
+        else
+        {
+            force = pushForce * dir / (distance * pushDecay);
+        }
+        rb.AddForce(direction * force);
     }
 
     private void UpdateCurrMetal()
     {
         if (currAction == None)
         {
+            if (currMetalTrans != null)
+            {
+                Boost();
+            }
             currMetalTrans = null;
+
         }
+    }
+
+    private void Boost()
+    {
+        Debug.Log("boost");
+        Vector2 vel = rb.velocity;
+        rb.AddForce(vel.normalized * boostForce, ForceMode2D.Impulse);
+
     }
 
     private void FindNearestMetal()
@@ -158,12 +180,29 @@ public class PushPull : MonoBehaviour
         float minDistance = Vector3.Distance(min.position, transform.position);
         for (int i = 1; i < metals.Length; i++)
         {
+            if (log)
+            {
+                print(i + " " + Vector3.Distance(metals[i].position, transform.position));
+            }
             if (Vector3.Distance(metals[i].position, transform.position) < minDistance)
             {
                 min = metals[i];
+                minDistance = Vector3.Distance(metals[i].position, transform.position);
             }
         }
         nearestMetalTrans = min;
+        //if (log)
+        //{
+        //    print(Vector3.Distance(nearestMetalTrans.position, transform.position));
+        //}
+        //if (log)
+        //{
+        //    foreach (Transform metal in metals)
+        //    {
+        //        print(metal.position);
+        //    }
+        //}
+       
     }
 
     public void Die()

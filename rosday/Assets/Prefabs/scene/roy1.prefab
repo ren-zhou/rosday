@@ -436,10 +436,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7711409b4ee2a34ba2f351de518d50a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 150
+  pushForce: 100
   pushDecay: 1
   currLR: {fileID: 8514754072753550962}
   currAction: 2
+  forceOn: 1
+  log: 0
+  boostForce: 10
 --- !u!120 &6020673300509431481
 LineRenderer:
   m_ObjectHideFlags: 0

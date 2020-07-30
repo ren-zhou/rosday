@@ -1,12 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static PushState;
 
-public class RoyCheck : MonoBehaviour
+public class RoyStupidCode : MonoBehaviour
 {
-    private BaseMovement bm;
+    private RoyMove rm;
 
-    private Rigidbody2D rb;
     private Animator anim;
     public Transform groundCheck;
     public Transform WallCheckA;
@@ -19,6 +19,8 @@ public class RoyCheck : MonoBehaviour
     public float wallCheckDistance;
     public LayerMask groundLM;
     public LayerMask slideLM;
+
+    public float gravityAcceleration;
 
     /* Keep track of states during gameplay. */
     private bool isFacingRight = true;
@@ -41,14 +43,13 @@ public class RoyCheck : MonoBehaviour
     private bool isCrouching;
     public int jumpLeeway;
     private PushPull pushll;
-    
+    private BoxCollider2D bc;
 
-    // Start is called before the first frame update
+    public Vector2 velocity;
     void Start()
     {
-        bm = GetComponent<BaseMovement>();
+        rm = GetComponent<RoyMove>();
         anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
         pfsg = 0;
         pushll = GetComponent<PushPull>();
         canInput = true;
@@ -61,15 +62,6 @@ public class RoyCheck : MonoBehaviour
         CheckInput();
         CheckAnimConditions();
         UpdateAnimations();
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    transform.position += Vector3.right * Time.deltaTime * speed;
-        //}
-
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    transform.position += Vector3.left * Time.deltaTime * speed;
-        //}
     }
 
     private void FixedUpdate()
@@ -78,8 +70,50 @@ public class RoyCheck : MonoBehaviour
         CheckIfWallSliding();
         CheckMoveConditions();
         ApplyMovement();
-        bm.CapFallSpeed();
+        rm.CapFallSpeed();
+        DoStuff()
 
+    }
+
+    private void DoStuff()
+    {
+        velocity = rm.GetVel();
+        Gravity();
+        Move();
+        ResolveHitboxes();
+    }
+
+    void Gravity()
+    {
+        if (!isGrounded)
+        {
+            velocity.y -= gravityAcceleration * Time.fixedDeltaTime;
+        }
+
+
+    }
+    void Move()
+    {
+        transform.Translate(velocity * Time.deltaTime);
+    }
+
+    void ResolveHitboxes()
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, bc.size, 0);
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit == bc)
+                continue;
+
+            ColliderDistance2D colliderDistance = hit.Distance(bc);
+
+            if (colliderDistance.isOverlapped)
+            {
+                transform.Translate(colliderDistance.pointA - colliderDistance.pointB);
+                velocity.x = 0;
+            }
+        }
     }
 
     public int FacingDirection()
@@ -96,12 +130,12 @@ public class RoyCheck : MonoBehaviour
         moveInputDir = Input.GetAxisRaw("Horizontal");
         if (Input.GetButtonDown("Jump"))
         {
-            bm.Uncrouch();
+            rm.Uncrouch();
             Jump();
         }
         else if (Input.GetButtonUp("Jump") && jumpedLastFrame)
         {
-            bm.ShortenJump();
+            rm.ShortenJump();
             jumpedLastFrame = false;
         }
         else if (Input.GetAxisRaw("Vertical") < 0)
@@ -121,7 +155,8 @@ public class RoyCheck : MonoBehaviour
         if (Input.GetButtonDown("Push"))
         {
             pushll.currAction = Pushing;
-        } else if (Input.GetButtonDown("Pull"))
+        }
+        else if (Input.GetButtonDown("Pull"))
         {
             pushll.currAction = Pulling;
         }
@@ -135,18 +170,18 @@ public class RoyCheck : MonoBehaviour
     private void Crouch()
     {
         isCrouching = true;
-        bm.Crouch();
+        rm.Crouch();
     }
 
     private void Uncrouch()
     {
         isCrouching = false;
-        bm.Uncrouch();
+        rm.Uncrouch();
     }
 
     private void CheckIfWallSliding()
     {
-        isWallSliding = isOnWall && !isGrounded && (rb.velocity.y <= 0) && (moveInputDir == FacingDirection() || isWallSliding);
+        isWallSliding = isOnWall && !isGrounded && (velocity.y <= 0) && (moveInputDir == FacingDirection() || isWallSliding);
     }
 
     private void CheckAnimConditions()
@@ -156,7 +191,7 @@ public class RoyCheck : MonoBehaviour
         {
             Flip();
         }
-        isWalking = Mathf.Abs(rb.velocity.x) > 0.1f;
+        isWalking = Mathf.Abs(velocity.x) > 0.1f;
     }
 
     private void CheckSurroundings()
@@ -182,11 +217,11 @@ public class RoyCheck : MonoBehaviour
         jumpedLastFrame = true;
         if (canGroundJump)
         {
-            bm.GroundedJump();
+            rm.GroundedJump();
         }
         else if (isOnWall || isWallSliding || isNextToWall)
         {
-            bm.WallJump(-lastWallDirection);
+            rm.WallJump(-lastWallDirection);
             isWallSliding = false;
             Flip();
         }
@@ -220,7 +255,7 @@ public class RoyCheck : MonoBehaviour
 
     private bool BelowMaxSpeed()
     {
-        return rb.velocity.x < bm.CurrentSpeed();
+        return velocity.x < rm.CurrentSpeed();
     }
 
     public void ApplyMovement()
@@ -229,29 +264,29 @@ public class RoyCheck : MonoBehaviour
         {
             if (moveInputDir != 0 && BelowMaxSpeed())
             {
-                bm.AccelerateOnGround(moveInputDir);
+                rm.AccelerateOnGround(moveInputDir);
             }
-            else if (Mathf.Abs(rb.velocity.x) > 0)
+            else if (Mathf.Abs(velocity.x) > 0)
             {
-                bm.DecelerateOnGround();
+                rm.DecelerateOnGround();
             }
         }
         else if (!isGrounded && !isWallSliding && moveInputDir != 0 && BelowMaxSpeed())
         {
-            bm.AccelerateInAir(moveInputDir);
+            rm.AccelerateInAir(moveInputDir);
         }
-        else if (!isGrounded && !isWallSliding && moveInputDir == 0 && Mathf.Abs(rb.velocity.x) > 0)
+        else if (!isGrounded && !isWallSliding && moveInputDir == 0 && Mathf.Abs(velocity.x) > 0)
         {
-            bm.DecelerateInAir();
+            rm.DecelerateInAir();
         }
         if (isWallSliding)
         {
-            bm.WallSlide();
+            rm.WallSlide();
 
         }
         if (!isGrounded && isCrouching)
         {
-            bm.Uncrouch();
+            rm.Uncrouch();
         }
     }
 
@@ -268,7 +303,7 @@ public class RoyCheck : MonoBehaviour
     {
         anim.SetBool("isWalking", isWalking);
         anim.SetBool("isGrounded", isGrounded);
-        anim.SetFloat("yVelocity", rb.velocity.y);
+        anim.SetFloat("yVelocity", velocity.y);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isCrouching", isCrouching);
     }
@@ -294,9 +329,8 @@ public class RoyCheck : MonoBehaviour
 
     public void ZeroAll()
     {
-        rb.velocity = Vector3.zero;
+        velocity = Vector2.zero;
         pushll.ZeroAction();
         moveInputDir = 0;
     }
-
 }
